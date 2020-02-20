@@ -1,0 +1,23 @@
+.playlist, tr, td{
+  border: 1px solid black;
+}
+.playlist{
+  font-family: Georgia;
+}
+a:hover{
+  cursor: pointer;
+}
+.fxRow{
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+  place-content: start space-around;
+  align-items: flex-start;
+}
+#explanation{
+  width: 20%;
+  overflow: scroll;
+}
+#go{
+  margin-top:10%;
+}

@@ -1,0 +1,16 @@
+.NavBox{
+  font-weight:bold; 
+  font: Arial;
+  padding: 5px;
+}
+.fxRow{
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+  place-content: stretch space-around;
+  align-items: stretch;
+}
+.fxRow :hover{
+  background: gray;
+  cursor:pointer;
+}
