@@ -887,6 +887,25 @@ showMove(num,type,color,str){
     
 }
 
+goBackTo(str){
+    this.removeImages();
+    this.clearBorders();
+    if (str===this.boardString){
+        this.doThing();
+    } else {
+        var backBoard = this.newBoard(str);
+        var backPieces = this.createPiecesArr(backBoard);
+        var boxes = document.getElementsByClassName("box64");
+        for (var backshow=0;backshow<backPieces.length;backshow++){
+            if (backPieces[backshow]){
+                boxes[backshow].append(backPieces[backshow].image);
+            }
+            this.clearOnclick(boxes[backshow]);
+            boxes[backshow].style.cursor = "default";
+        }
+    }
+}
+
 displayMove(num1,num2,str){
     var innerString = this.pieces[num1].type;
     var scoresheet = document.getElementById("scoresheet");
@@ -936,24 +955,7 @@ displayMove(num1,num2,str){
     }
 }
 
-goBackTo(str){
-    this.removeImages();
-    this.clearBorders();
-    if (str===this.boardString){
-        doThing();
-    } else {
-        var backBoard = this.newBoard(str);
-        var backPieces = this.createPiecesArr(backBoard);
-        var boxes = document.getElementsByClassName("box64");
-        for (var backshow=0;backshow<backPieces.length;backshow++){
-            if (backPieces[backshow]){
-                boxes[backshow].append(backPieces[backshow].image);
-            }
-            clearOnclick(boxes[backshow]);
-            boxes[backshow].style.cursor = "default";
-        }
-    }
-}
+
 
 displayCapturedPiece(piece){
     var graveyard;
@@ -1039,7 +1041,7 @@ Destination(num1,num2,str){
     var boxes = document.getElementsByClassName("box64");
     boxes[num1].style.border = "2px solid green";
     boxes[num2].style.border = "2px solid green";
-    doThing();
+    this.doThing();
 }
 
 newBoard(str){
@@ -1092,7 +1094,7 @@ doThing(){
         if (this.pieces[cc]){
             boxes[cc].append(this.pieces[cc].image);
             this.pieces[cc].space = cc;
-            if (this.pieces[cc].color!==playerColor){
+            if (this.pieces[cc].color!==this.playerColor){
                 this.clearOnclick(boxes[cc]);
             } else {
                 this.addShowMoveFunction(boxes[cc],cc,this.pieces[cc].type,this.pieces[cc].color,this.boardString);
@@ -1123,9 +1125,9 @@ doThing(){
         alert("Stalemate!");
         document.body.append("Stalemate!");
     }
-    if (this.boardString[128]===compColor && this.gameover===""){
+    if (this.boardString[128]===this.compColor && this.gameover===""){
         this.doCompMove(this.boardString)
-    } else if (this.boardString[128]===playerColor){
+    } else if (this.boardString[128]===this.playerColor){
         this.CurrentMove++;
         console.log(this.CurrentMove);
     }
