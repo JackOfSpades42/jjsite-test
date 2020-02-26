@@ -47,13 +47,13 @@ addBorder(num){
 addSelectionBorder(num){
     var boxes = document.getElementsByClassName("box64");
     boxes[num].style.border = "2px solid rgb(1,1,1)";
-    var kingspace = boardString.indexOf(boardString[128] + "K")/2;
-    if (check(boardString,boardString[128]) && kingspace!==num){
+    var kingspace = this.boardString.indexOf(this.boardString[128] + "K")/2;
+    if (this.check(this.boardString,this.boardString[128]) && kingspace!==num){
         boxes[kingspace].style.border = "2px solid rgb(128,0,0)";
     }
-    if (lastmove.length>0){
-        boxes[lastmove[0]].style.border = "2px solid green";
-        boxes[lastmove[1]].style.border = "2px solid green";
+    if (this.lastmove.length>0){
+        boxes[this.lastmove[0]].style.border = "2px solid green";
+        boxes[this.lastmove[1]].style.border = "2px solid green";
     }
 }
 
@@ -216,12 +216,12 @@ check (str,color){
     return false;
 }
 
-function checkmate(str){
-    if (gameover!==""){
+checkmate(str){
+    if (this.gameover!==""){
         return true;
     }
     var checkmateBoard = newBoard(str);
-    var checkmatePieces = createPiecesArr(checkmateBoard);
+    var checkmatePieces = this.createPiecesArr(checkmateBoard);
     var colorMated = str[128];
     var allMoves = [];
     if (colorMated==="w"){
@@ -252,15 +252,15 @@ function checkmate(str){
     if (allMoves.length>0){
         return false;
     }
-    if (!check(str,str[128]) && allMoves.length<1){
+    if (!this.check(str,str[128]) && allMoves.length<1){
         return "s";
     }
     return true;
 }
 
-function stalemate(str){
-    var stalemateBoard = newBoard(str);
-    var stalematePieces = createPiecesArr(stalemateBoard);
+stalemate(str){
+    var stalemateBoard = this.newBoard(str);
+    var stalematePieces = this.createPiecesArr(stalemateBoard);
     var color = str[128];
     var allMoves = [];
     for (var mateCheck=0;mateCheck<stalematePieces.length;mateCheck++){
@@ -279,14 +279,14 @@ function stalemate(str){
     return true;
 }
 
-function getPromotePiece(str){
+getPromotePiece(str){
     var promoteBox = document.getElementsByClassName("promoteBox");
     promoteBox[0].style.display = "block";
     var promoteButton = document.getElementById("promoteButton");
     promoteButton.onclick = function(){promote(str)};
 }
 
-function promote(str){
+promote(str){
     var promotedTo = document.getElementsByName("promo");
     for (var findPiece=0;findPiece<4;findPiece++){
         if (promotedTo[findPiece].checked){
@@ -299,8 +299,8 @@ function promote(str){
             return;
         }
     }
-    promoteBoard = newBoard(str);
-    promotePieces = createPiecesArr(promoteBoard);
+    let promoteBoard = this.newBoard(str);
+    let promotePieces = this.createPiecesArr(promoteBoard);
     for (var firstCheck=0;firstCheck<8;firstCheck++){
         if (promotePieces[firstCheck]){
             if (promotePieces[firstCheck].type==="P"){
@@ -324,10 +324,10 @@ function promote(str){
                 var newStr = str.substring(0,secondCheck*2);
                 newStr += "b" + promotedTo;
                 newStr += str.substring(secondCheck*2+2,str.length);
-                boardString = newStr;
+                this.boardString = newStr;
                 promoteBoard=newBoard(newStr);
-                promotePieces = createPiecesArr(promoteBoard);
-                pieces = promotePieces;
+                promotePieces = this.createPiecesArr(promoteBoard);
+                this.pieces = promotePieces;
                 var previousMoves = document.getElementsByClassName("previousMoves");
                 previousMoves[previousMoves.length-1].onclick = function(){goBackTo(newStr)};
                 removeImages();
@@ -337,17 +337,17 @@ function promote(str){
     }
 }
 
-function getBishopMoves(num,color,str,func){
+getBishopMoves(num,color,str,func){
     var thisMoveBoard = newBoard(str);
-    var thisMovePieces = createPiecesArr(thisMoveBoard);
+    var thisMovePieces = this.createPiecesArr(thisMoveBoard);
     for (var topRightFile=1;topRightFile<8;topRightFile++){
         if (num-(topRightFile*7)>=0 && (num-(topRightFile*7))%8!==0){
             if (!thisMovePieces[num-(topRightFile*7)]){
-                if (!func(swapBoardString(str,num,num-(topRightFile*7)),color)){
+                if (!func(this.swapBoardString(str,num,num-(topRightFile*7)),color)){
                     thisMovePieces[num].moves.push([num,num-(topRightFile*7)]);
                 }
-            } else if (thisMovePieces[num-(topRightFile*7)].color===opposite(color)){
-                if (!func(swapBoardString(str,num,num-(topRightFile*7)),color)){
+            } else if (thisMovePieces[num-(topRightFile*7)].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num-(topRightFile*7)),color)){
                     thisMovePieces[num].moves.push([num,num-(topRightFile*7)]);
                 }
                 break;
@@ -361,11 +361,11 @@ function getBishopMoves(num,color,str,func){
     for (var topLeftFile=1;topLeftFile<8;topLeftFile++){
         if (num-(topLeftFile*9)>=0 && (num-(topLeftFile*9))%8!==7){
             if (!thisMovePieces[num-(topLeftFile*9)]){
-                if (!func(swapBoardString(str,num,num-(topLeftFile*9)),color)){
+                if (!func(this.swapBoardString(str,num,num-(topLeftFile*9)),color)){
                     thisMovePieces[num].moves.push([num,num-(topLeftFile*9)]);
                 }
-            } else if (thisMovePieces[num-(topLeftFile*9)].color===opposite(color)){
-                if (!func(swapBoardString(str,num,num-(topLeftFile*9)),color)){
+            } else if (thisMovePieces[num-(topLeftFile*9)].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num-(topLeftFile*9)),color)){
                     thisMovePieces[num].moves.push([num,num-(topLeftFile*9)]);
                 }
                 break;
@@ -379,11 +379,11 @@ function getBishopMoves(num,color,str,func){
     for (var bottomRightFile=1;bottomRightFile<8;bottomRightFile++){
         if (num+(bottomRightFile*7)<=63 && (num+(bottomRightFile*7))%8!==7){
             if (!thisMovePieces[num+(bottomRightFile*7)]){
-                if (!func(swapBoardString(str,num,num+(bottomRightFile*7)),color)){
+                if (!func(this.swapBoardString(str,num,num+(bottomRightFile*7)),color)){
                     thisMovePieces[num].moves.push([num,num+(bottomRightFile*7)]);
                 }
-            } else if (thisMovePieces[num+(bottomRightFile*7)].color===opposite(color)){
-                if (!func(swapBoardString(str,num,num+(bottomRightFile*7)),color)){
+            } else if (thisMovePieces[num+(bottomRightFile*7)].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num+(bottomRightFile*7)),color)){
                     thisMovePieces[num].moves.push([num,num+(bottomRightFile*7)]);
                 }
                 break;
@@ -397,11 +397,11 @@ function getBishopMoves(num,color,str,func){
     for (var bottomLeftFile=1;bottomLeftFile<8;bottomLeftFile++){
         if (num+(bottomLeftFile*9)<=63 && (num+(bottomLeftFile*9))%8!==0){
             if (!thisMovePieces[num+(bottomLeftFile*9)]){
-                if (!func(swapBoardString(str,num,num+(bottomLeftFile*9)),color)){
+                if (!func(this.swapBoardString(str,num,num+(bottomLeftFile*9)),color)){
                     thisMovePieces[num].moves.push([num,num+(bottomLeftFile*9)]);
                 }
-            } else if (thisMovePieces[num+(bottomLeftFile*9)].color===opposite(color)){
-                if (!func(swapBoardString(str,num,num+(bottomLeftFile*9)),color)){
+            } else if (thisMovePieces[num+(bottomLeftFile*9)].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num+(bottomLeftFile*9)),color)){
                     thisMovePieces[num].moves.push([num,num+(bottomLeftFile*9)]);
                 }
                 break;
@@ -414,19 +414,19 @@ function getBishopMoves(num,color,str,func){
     }
     return thisMovePieces[num].moves;
 }
-function getRookMoves(num,color,str,func){
+getRookMoves(num,color,str,func){
     var thisMoveBoard = newBoard(str);
-    var thisMovePieces = createPiecesArr(thisMoveBoard);
+    var thisMovePieces = this.createPiecesArr(thisMoveBoard);
     var lastRightSpace = Math.floor(num/8)*8 + 7;
     var lastLeftSpace = Math.floor(num/8)*8;
     for (var rightSideRow=1;rightSideRow<8;rightSideRow++){
         if (num+rightSideRow<=lastRightSpace){
             if (!thisMovePieces[num+rightSideRow]){
-                if (!func(swapBoardString(str,num,num+rightSideRow),color)){
+                if (!func(this.swapBoardString(str,num,num+rightSideRow),color)){
                     thisMovePieces[num].moves.push([num,num+rightSideRow]);
                 }
-            } else if (thisMovePieces[num+rightSideRow].color===opposite(color)){
-                if (!func(swapBoardString(str,num,num+rightSideRow),color)){
+            } else if (thisMovePieces[num+rightSideRow].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num+rightSideRow),color)){
                     thisMovePieces[num].moves.push([num,num+rightSideRow]);
                 }
                 break;
@@ -440,11 +440,11 @@ function getRookMoves(num,color,str,func){
     for (var leftSideRow=1;leftSideRow<8;leftSideRow++){
         if (num-leftSideRow>=lastLeftSpace){
             if(!thisMovePieces[num-leftSideRow]){
-                if (!func(swapBoardString(str,num,num-leftSideRow),color)){
+                if (!func(this.swapBoardString(str,num,num-leftSideRow),color)){
                     thisMovePieces[num].moves.push([num,num-leftSideRow]);
                 }
-            } else if (thisMovePieces[num-leftSideRow].color===opposite(color)){
-                if (!func(swapBoardString(str,num,num-leftSideRow),color)){
+            } else if (thisMovePieces[num-leftSideRow].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num-leftSideRow),color)){
                     thisMovePieces[num].moves.push([num,num-leftSideRow]);
                 }
                 break;
@@ -458,11 +458,11 @@ function getRookMoves(num,color,str,func){
     for (var topColumn=1;topColumn<8;topColumn++){
         if (num-(topColumn*8)>=0){
             if (!thisMovePieces[num-(topColumn*8)]){
-                if (!func(swapBoardString(str,num,num-(topColumn*8)),color)){
+                if (!func(this.swapBoardString(str,num,num-(topColumn*8)),color)){
                     thisMovePieces[num].moves.push([num,num-(topColumn*8)]);
                 }
-            } else if (thisMovePieces[num-(topColumn*8)].color===opposite(color)){
-                if (!func(swapBoardString(str,num,num-(topColumn*8)),color)){
+            } else if (thisMovePieces[num-(topColumn*8)].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num-(topColumn*8)),color)){
                     thisMovePieces[num].moves.push([num,num-(topColumn*8)]);
                 }
                 break;
@@ -476,11 +476,11 @@ function getRookMoves(num,color,str,func){
     for (var bottomColumn=1;bottomColumn<8;bottomColumn++){
         if (num+(bottomColumn*8)<=63){
             if (!thisMovePieces[num+(bottomColumn*8)]){
-                if (!func(swapBoardString(str,num,num+(bottomColumn*8)),color)){
+                if (!func(this.swapBoardString(str,num,num+(bottomColumn*8)),color)){
                     thisMovePieces[num].moves.push([num,num+(bottomColumn*8)]);
                 }
-            } else if (thisMovePieces[num+(bottomColumn*8)].color===opposite(color)){
-                if (!func(swapBoardString(str,num,num+(bottomColumn*8)),color)){
+            } else if (thisMovePieces[num+(bottomColumn*8)].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num+(bottomColumn*8)),color)){
                     thisMovePieces[num].moves.push([num,num+(bottomColumn*8)]);
                 }
                 break;
@@ -496,114 +496,114 @@ function getRookMoves(num,color,str,func){
 
 
 
-function getKingMoves(num,color,str,func){
+getKingMoves(num,color,str,func){
     var movesArr = [];
     if(num+1<64){
         if (num+8<64){
-            var checkString = swapBoardString(str,num,num+8);
+            var checkString = this.swapBoardString(str,num,num+8);
             if (!func(checkString,color)){
-                if (!pieces[num+8]){
+                if (!this.pieces[num+8]){
                     movesArr.push([num,num+8]);
-                } else if (pieces[num+8].color===opposite(color)){
+                } else if (this.pieces[num+8].color===this.opposite(color)){
                     movesArr.push([num,num+8]);
                 }
             }
         } 
         if (num+7<64){
-            var checkString = swapBoardString(str,num,num+7);
+            var checkString = this.swapBoardString(str,num,num+7);
             if (!func(checkString,color)){
-                if (!pieces[num+7] && num%8!==0){
+                if (!this.pieces[num+7] && num%8!==0){
                     movesArr.push([num,num+7]);
-                } else if(!pieces[num+7]){
+                } else if(!this.pieces[num+7]){
 
-                } else if (pieces[num+7].color===opposite(color) && num%8!==0){
+                } else if (this.pieces[num+7].color===this.opposite(color) && num%8!==0){
                     movesArr.push([num,num+7]);
                 }
             }
         }
         if (num+9<64){
-            var checkString = swapBoardString(str,num,num+9);
+            var checkString = this.swapBoardString(str,num,num+9);
             if (!func(checkString,color)){
-                if (!pieces[num+9] && num%8!==7){
+                if (!this.pieces[num+9] && num%8!==7){
                     movesArr.push([num,num+9]);
-                } else if(!pieces[num+9]){
+                } else if(!this.pieces[num+9]){
 
-                } else if (pieces[num+9].color===opposite(color) && num%8!==7){
+                } else if (this.pieces[num+9].color===this.opposite(color) && num%8!==7){
                     movesArr.push([num,num+9]);
                 }
             }
         }
-        var checkString = swapBoardString(str,num,num+1);
+        var checkString = this.swapBoardString(str,num,num+1);
         if (!func(checkString,color)){
-            if (!pieces[num+1] & num%8!==7){
+            if (!this.pieces[num+1] && num%8!==7){
                 movesArr.push([num,num+1]);
-            } else if(!pieces[num+1]){
+            } else if(!this.pieces[num+1]){
 
-            } else if (pieces[num+1].color===opposite(color) && num%8!==7){
+            } else if (this.pieces[num+1].color===this.opposite(color) && num%8!==7){
                 movesArr.push([num,num+1]);
             }
         }
     }
     if (num-1>=0){
         if (num-8>=0){
-            var checkString = swapBoardString(str,num,num-8);
+            var checkString = this.swapBoardString(str,num,num-8);
             if (!func(checkString,color)){
-                if (!pieces[num-8]){
+                if (!this.pieces[num-8]){
                     movesArr.push([num,num-8]);
-                } else if (pieces[num-8].color===opposite(color)){
+                } else if (this.pieces[num-8].color===this.opposite(color)){
                     movesArr.push([num,num-8]);
                 }
             }
         } 
         if (num-7>=0){
-            var checkString = swapBoardString(str,num,num-7);
+            var checkString = this.swapBoardString(str,num,num-7);
             if (!func(checkString,color)){
-                if (!pieces[num-7] && num%8!==7){
+                if (!this.pieces[num-7] && num%8!==7){
                     movesArr.push([num,num-7]);
-                } else if(!pieces[num-7]){
+                } else if(!this.pieces[num-7]){
 
-                } else if (pieces[num-7].color===opposite(color) && num%8!==7){
+                } else if (this.pieces[num-7].color===this.opposite(color) && num%8!==7){
                     movesArr.push([num,num-7]);
                 }
             }
         }
         if (num-9>=0){
-            var checkString = swapBoardString(str,num,num-9);
+            var checkString = this.swapBoardString(str,num,num-9);
             if (!func(checkString,color)){
-                if (!pieces[num-9] && num%8!==0){
+                if (!this.pieces[num-9] && num%8!==0){
                     movesArr.push([num,num-9]);
-                } else if(!pieces[num-9]){
+                } else if(!this.pieces[num-9]){
 
-                } else if (pieces[num-9].color===opposite(color) && num%8!==0){
+                } else if (this.pieces[num-9].color===this.opposite(color) && num%8!==0){
                     movesArr.push([num,num-9]);
                 }
             }
         }
-        var checkString = swapBoardString(str,num,num-1);
+        var checkString = this.swapBoardString(str,num,num-1);
         if (!func(checkString,color)){
-            if (!pieces[num-1] && num%8!==0){
+            if (!this.pieces[num-1] && num%8!==0){
                 movesArr.push([num,num-1]);
-            } else if(!pieces[num-1]){
+            } else if(!this.pieces[num-1]){
 
-            } else if (pieces[num-1].color===opposite(color) && num%8!==0){
+            } else if (this.pieces[num-1].color===this.opposite(color) && num%8!==0){
                 movesArr.push([num,num-1]);
             }
         }
     }
     if (color==="w"){
-        if (!canCastle.wKmoved && !canCastle.wRRmoved){
-            if (!pieces[61] && !pieces[62] && !func(str,"w")){
-                var checkString = swapBoardString(str,num,61);
-                var checkString2 = swapBoardString(str,num,62);
+        if (!this.canCastle.wKmoved && !this.canCastle.wRRmoved){
+            if (!this.pieces[61] && !this.pieces[62] && !func(str,"w")){
+                var checkString = this.swapBoardString(str,num,61);
+                var checkString2 = this.swapBoardString(str,num,62);
                 if (!func(checkString,"w") && !func(checkString2,"w")){
                     movesArr.push([num,62]);
                 }
             }
         }
-        if (!canCastle.wKmoved && !canCastle.wRLmoved){
-            if (!pieces[59] && !pieces[58] && !func(str,"w")){
-                var checkString = swapBoardString(str,num,58);
-                var checkString2 = swapBoardString(str,num,59);
+        if (!this.canCastle.wKmoved && !this.canCastle.wRLmoved){
+            if (!this.pieces[59] && !this.pieces[58] && !func(str,"w")){
+                var checkString = this.swapBoardString(str,num,58);
+                var checkString2 = this.swapBoardString(str,num,59);
                 if (!func(checkString,"w") && !func(checkString2,"w")){
                     movesArr.push([num,58]);
                 }
@@ -611,19 +611,19 @@ function getKingMoves(num,color,str,func){
         }
     }
     if (color==="b"){
-        if (!canCastle.bKmoved && !canCastle.bRRmoved){
-            if (!pieces[5] && !pieces[6] && !func(str,"b")){
-                var checkString = swapBoardString(str,num,5);
-                var checkString2 = swapBoardString(str,num,6);
+        if (!this.canCastle.bKmoved && !this.canCastle.bRRmoved){
+            if (!this.pieces[5] && !this.pieces[6] && !func(str,"b")){
+                var checkString = this.swapBoardString(str,num,5);
+                var checkString2 = this.swapBoardString(str,num,6);
                 if (!func(checkString,"b") && !func(checkString2,"b")){
                     movesArr.push([num,6]);
                 }
             }
         }
-        if (!canCastle.bKmoved && !canCastle.bRLmoved){
-            if (!pieces[3] && !pieces[2] && !func(str,"b")){
-                var checkString = swapBoardString(str,num,3);
-                var checkString2 = swapBoardString(str,num,2);
+        if (!this.canCastle.bKmoved && !this.canCastle.bRLmoved){
+            if (!this.pieces[3] && !this.pieces[2] && !func(str,"b")){
+                var checkString = this.swapBoardString(str,num,3);
+                var checkString2 = this.swapBoardString(str,num,2);
                 if (!func(checkString,"b") && !func(checkString2,"b")){
                     movesArr.push([num,2]);
                 }
