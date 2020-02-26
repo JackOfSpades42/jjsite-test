@@ -2,15 +2,49 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class Xavier {
+boardString;
+board;
+canCastle;
+CurrentMove;
+lastmove;
+checkShowing;
+gameover;
+pieces;
+  constructor() {
+    this.boardString = 'bRbNbBbQbKbBbNbR'
 
-  constructor() { }
+    for (var pawnCountb=0;pawnCountb<8;pawnCountb++){
+      this.boardString += 'bP';
+    }
+    for (var Ecount=0;Ecount<32;Ecount++){
+      this.boardString += 'ee';
+    }
+    for (var pawnCountw=0;pawnCountw<8;pawnCountw++){
+      this.boardString += 'wP';
+    }
+this.boardString += 'wRwNwBwQwKwBwNwRw';
+this.board = this.newBoard(this.boardString);
+this.canCastle = {
+    wKmoved : 0,
+    bKmoved : 0,
+    bRLmoved : 0,
+    bRRmoved : 0,
+    wRRmoved : 0,
+    wRLmoved : 0
+}
+this.CurrentMove = 0;
+this.lastmove = [];
+this.checkShowing = "";
+this.gameover = "";
+this.pieces = this.createPiecesArr(this.board);
+   }
 
-function addBorder(num){
+addBorder(num){
     var boxes = document.getElementsByClassName("box64");
     boxes[num].style.border = "2px solid rgb(204,0,0)";
 }
 
-function addSelectionBorder(num){
+addSelectionBorder(num){
     var boxes = document.getElementsByClassName("box64");
     boxes[num].style.border = "2px solid rgb(1,1,1)";
     var kingspace = boardString.indexOf(boardString[128] + "K")/2;
@@ -23,7 +57,7 @@ function addSelectionBorder(num){
     }
 }
 
-function clearBorders(){
+clearBorders(){
     var redBoxes = document.getElementsByClassName("box64red");
     var whiteBoxes = document.getElementsByClassName("box64white");
     for (var boxcount=0;boxcount<redBoxes.length;boxcount++){
@@ -32,7 +66,7 @@ function clearBorders(){
     }
 }
 
-function arrayEqual(a,b){
+arrayEqual(a,b){
     if (a===null || b===null){
         return false;
     } else if (a.length!==b.length){
@@ -46,23 +80,23 @@ function arrayEqual(a,b){
     return true;
 }
 
-function opposite(color){
+opposite(color){
     if (color==="w"){
         return "b";
     }
     return "w";
 }
 
-function findFile(num){
-    returnArr = ["a","b","c","d","e","f","g","h"];
+findFile(num){
+    let returnArr = ["a","b","c","d","e","f","g","h"];
     return returnArr[num];
 }
 
-function findRank(num){
+findRank(num){
     return 8 - num;
 }
 
-function createPiecesArr(board){
+createPiecesArr(board){
     var newPiecesArr = [];
     for (var piecesCount=0;piecesCount<board.length-1;piecesCount++){
         if (board[piecesCount]!=='ee'){
@@ -72,7 +106,8 @@ function createPiecesArr(board){
     return newPiecesArr;
 }
 
-function swapBoardString(str,numFrom,numTo){
+swapBoardString(str,numFrom,numTo){
+  let newString = "";
         if (numFrom<numTo){
             newString = str.substring(0,numFrom*2);
             newString += "ee";
@@ -80,7 +115,7 @@ function swapBoardString(str,numFrom,numTo){
             newString += str[numFrom*2];
             newString += str[numFrom*2+1];
             newString += str.substring(numTo*2+2,str.length-1);
-            newString += opposite(str[128]);
+            newString += this.opposite(str[128]);
         } else {
             newString = str.substring(0,numTo*2);
             newString += str[numFrom*2];
@@ -88,15 +123,15 @@ function swapBoardString(str,numFrom,numTo){
             newString += str.substring(numTo*2+2,numFrom*2);
             newString += "ee";
             newString += str.substring(numFrom*2+2,str.length-1);
-            newString += opposite(str[128]);
+            newString += this.opposite(str[128]);
         }
         return newString;
 }
 
-function check (str,color){
+check (str,color){
     if (color===undefined){
-        var checkw = check(str,"w");
-        var checkb = check(str,"b");
+        var checkw = this.check(str,"w");
+        var checkb = this.check(str,"b");
         if (!checkb && !checkw){
             return false;
         } else {
@@ -111,7 +146,7 @@ function check (str,color){
         var knightCheck = getKnightMoves(kingSpace,color,str,function(str,num){return false});
         var kingCheck = getKingMoves(kingSpace,color,str,function(str,num){return false});
         var checkBoard = newBoard(str);
-        var checkPieces = createPiecesArr(checkBoard);
+        var checkPieces = this.createPiecesArr(checkBoard);
         if (bishCheck.length>0){
             for (var bcheck=0;bcheck<bishCheck.length;bcheck++){
                 if (checkPieces[bishCheck[bcheck][1]]){
