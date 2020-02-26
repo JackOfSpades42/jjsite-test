@@ -10,6 +10,8 @@ lastmove;
 checkShowing;
 gameover;
 pieces;
+playerColor;
+compColor;
   constructor() {
     this.boardString = 'bRbNbBbQbKbBbNbR'
 
@@ -37,6 +39,8 @@ this.lastmove = [];
 this.checkShowing = "";
 this.gameover = "";
 this.pieces = this.createPiecesArr(this.board);
+this. playerColor = "w";
+this. compColor = "b";
    }
 
 addBorder(num){
@@ -100,7 +104,7 @@ createPiecesArr(board){
     var newPiecesArr = [];
     for (var piecesCount=0;piecesCount<board.length-1;piecesCount++){
         if (board[piecesCount]!=='ee'){
-            newPiecesArr[piecesCount] = addPiece(board[piecesCount]);
+            newPiecesArr[piecesCount] = this.addPiece(board[piecesCount]);
         }
     }
     return newPiecesArr;
@@ -141,11 +145,11 @@ check (str,color){
     else {
         var king = color + "K";
         var kingSpace = Math.floor((str.indexOf(king)/2));
-        var bishCheck = getBishopMoves(kingSpace,color,str,function(str,num){return false});
-        var rookCheck = getRookMoves(kingSpace,color,str,function(str,num){return false});
-        var knightCheck = getKnightMoves(kingSpace,color,str,function(str,num){return false});
-        var kingCheck = getKingMoves(kingSpace,color,str,function(str,num){return false});
-        var checkBoard = newBoard(str);
+        var bishCheck = this.getBishopMoves(kingSpace,color,str,function(str,num){return false});
+        var rookCheck = this.getRookMoves(kingSpace,color,str,function(str,num){return false});
+        var knightCheck = this.getKnightMoves(kingSpace,color,str,function(str,num){return false});
+        var kingCheck = this.getKingMoves(kingSpace,color,str,function(str,num){return false});
+        var checkBoard = this.newBoard(str);
         var checkPieces = this.createPiecesArr(checkBoard);
         if (bishCheck.length>0){
             for (var bcheck=0;bcheck<bishCheck.length;bcheck++){
@@ -220,7 +224,7 @@ checkmate(str){
     if (this.gameover!==""){
         return true;
     }
-    var checkmateBoard = newBoard(str);
+    var checkmateBoard = this.newBoard(str);
     var checkmatePieces = this.createPiecesArr(checkmateBoard);
     var colorMated = str[128];
     var allMoves = [];
@@ -228,7 +232,7 @@ checkmate(str){
         for (var mateCheck=0;mateCheck<checkmatePieces.length;mateCheck++){
             if (checkmatePieces[mateCheck]){
                 if (checkmatePieces[mateCheck].color===colorMated){
-                    var newMoves = findMoves(mateCheck,checkmatePieces[mateCheck].type,colorMated,str);
+                    var newMoves = this.findMoves(mateCheck,checkmatePieces[mateCheck].type,colorMated,str);
                     if (newMoves.length===0){
                         return false;
                     }
@@ -240,7 +244,7 @@ checkmate(str){
             if (checkmatePieces[mateCheck]){
                 if (checkmatePieces[mateCheck].color===colorMated){
                     console.time("checkmate");
-                    var newMoves = findMoves(mateCheck,checkmatePieces[mateCheck].type,colorMated,str);
+                    var newMoves = this.findMoves(mateCheck,checkmatePieces[mateCheck].type,colorMated,str);
                     console.timeEnd("checkmate");
                     if (newMoves.length>0){
                         return false;
@@ -266,7 +270,7 @@ stalemate(str){
     for (var mateCheck=0;mateCheck<stalematePieces.length;mateCheck++){
         if (stalematePieces[mateCheck]){
             if (stalematePieces[mateCheck].color===color){
-                var newMoves = findMoves(mateCheck,stalematePieces[mateCheck].type,color,str);
+                var newMoves = this.findMoves(mateCheck,stalematePieces[mateCheck].type,color,str);
                 if (newMoves.length>0){
                     return false;
                 }
@@ -307,14 +311,14 @@ promote(str){
                 var newStr = str.substring(0,firstCheck*2);
                 newStr += "w" + promotedTo;
                 newStr += str.substring(firstCheck*2+2,str.length);
-                boardString = newStr;
-                promoteBoard=newBoard(newStr);
-                promotePieces = createPiecesArr(promoteBoard);
-                pieces = promotePieces;
+                this.boardString = newStr;
+                promoteBoard= this.newBoard(newStr);
+                promotePieces = this.createPiecesArr(promoteBoard);
+                this.pieces = promotePieces;
                 var previousMoves = document.getElementsByClassName("previousMoves");
-                previousMoves[previousMoves.length-1].onclick = function(){goBackTo(newStr)};
-                removeImages();
-                doThing();
+                previousMoves[previousMoves.length-1].onclick = function(){this.goBackTo(newStr)};
+                this.removeImages();
+                this.doThing();
             }
         }
     }
@@ -325,20 +329,20 @@ promote(str){
                 newStr += "b" + promotedTo;
                 newStr += str.substring(secondCheck*2+2,str.length);
                 this.boardString = newStr;
-                promoteBoard=newBoard(newStr);
+                promoteBoard=this.newBoard(newStr);
                 promotePieces = this.createPiecesArr(promoteBoard);
                 this.pieces = promotePieces;
                 var previousMoves = document.getElementsByClassName("previousMoves");
-                previousMoves[previousMoves.length-1].onclick = function(){goBackTo(newStr)};
-                removeImages();
-                doThing();
+                previousMoves[previousMoves.length-1].onclick = function(){this.goBackTo(newStr)};
+                this.removeImages();
+                this.doThing();
             }
         }
     }
 }
 
 getBishopMoves(num,color,str,func){
-    var thisMoveBoard = newBoard(str);
+    var thisMoveBoard = this.newBoard(str);
     var thisMovePieces = this.createPiecesArr(thisMoveBoard);
     for (var topRightFile=1;topRightFile<8;topRightFile++){
         if (num-(topRightFile*7)>=0 && (num-(topRightFile*7))%8!==0){
@@ -415,7 +419,7 @@ getBishopMoves(num,color,str,func){
     return thisMovePieces[num].moves;
 }
 getRookMoves(num,color,str,func){
-    var thisMoveBoard = newBoard(str);
+    var thisMoveBoard = this.newBoard(str);
     var thisMovePieces = this.createPiecesArr(thisMoveBoard);
     var lastRightSpace = Math.floor(num/8)*8 + 7;
     var lastLeftSpace = Math.floor(num/8)*8;
@@ -634,7 +638,7 @@ getKingMoves(num,color,str,func){
 }
 
 getKnightMoves(num,color,str,func){
-    var thisMoveBoard = newBoard(str);
+    var thisMoveBoard = this.newBoard(str);
     var thisMovePieces = this.createPiecesArr(thisMoveBoard);
     if (num-17 >=0){
         if (num%8!==0){
@@ -759,7 +763,7 @@ getKnightMoves(num,color,str,func){
 }
 
 getPawnMoves(num,color,str,func){
-    var thisMoveBoard = newBoard(str);
+    var thisMoveBoard = this.newBoard(str);
     var thisMovePieces = this.createPiecesArr(thisMoveBoard);
     if (color==="w"){
         var EP1 = [num-15,num+1];
@@ -869,16 +873,16 @@ findMoves(num,type,color,str){
 
 showMove(num,type,color,str){
     this.removeImages();
-    this.board = newBoard(this.boardString);
+    this.board = this.newBoard(this.boardString);
     this.pieces = this.createPiecesArr(this.board);
-    doThing();
+    this.doThing();
     this.pieces[num].moves = [];
     this.clearBorders();
     this.pieces[num].moves = this.findMoves(num,type,color,str);
     this.addSelectionBorder(num);
     for (var mov=0;mov<this.pieces[num].moves.length;mov++){
         this.addBorder(this.pieces[num].moves[mov][1]);
-        addDestinationFunction(num,this.pieces[num].moves[mov][1],str);
+        this.addDestinationFunction(num,this.pieces[num].moves[mov][1],str);
     }
     
 }
@@ -917,7 +921,7 @@ displayMove(num1,num2,str){
         var newCell = newRow.insertCell();
         newCell.style.width = "50px";
         var newBtn = document.createElement("button");
-        newBtn.onclick = function (){goBackTo(newStr);}
+        newBtn.onclick = function (){this.goBackTo(newStr);}
         newBtn.innerHTML = innerString;
         newBtn.classList = "previousMoves";
         newCell.append(newBtn);
@@ -925,7 +929,7 @@ displayMove(num1,num2,str){
         var newCell = scoresheet.rows[scoresheet.rows.length-1].insertCell();
         newCell.style.width = "50px";
         var newBtn = document.createElement("button");
-        newBtn.onclick = function (){goBackTo(newStr);}
+        newBtn.onclick = function (){this.goBackTo(newStr);}
         newBtn.innerHTML = innerString;
         newBtn.classList = "previousMoves";
         newCell.append(newBtn);
@@ -1120,7 +1124,7 @@ doThing(){
         document.body.append("Stalemate!");
     }
     if (this.boardString[128]===compColor && this.gameover===""){
-        doCompMove(this.boardString)
+        this.doCompMove(this.boardString)
     } else if (this.boardString[128]===playerColor){
         this.CurrentMove++;
         console.log(this.CurrentMove);
@@ -1148,9 +1152,8 @@ removeImages(){
 *
 */
 //The goods
-var playerColor = "w";
-var compColor = "b";
-function pieceScore(type){
+
+pieceScore(type){
     if (type==="P"){
         return 1;
     } else if (type==="Q"){
@@ -1166,11 +1169,11 @@ function pieceScore(type){
     }
 }
 
-function inverse(Arr){
+inverse(Arr){
     return Arr.slice().reverse();
 }
 
-function getScore(str){
+getScore(str){
     var wPawnArr = [
         0,0,0,0,0,0,0,0,
         0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,
