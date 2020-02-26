@@ -13,6 +13,7 @@ pieces;
 playerColor;
 compColor;
 count;
+getBishopMoves;
   constructor() {
     this.boardString = 'bRbNbBbQbKbBbNbR'
 
@@ -43,6 +44,83 @@ this.pieces = this.createPiecesArr(this.board);
 this. playerColor = "w";
 this. compColor = "b";
 this.count = 0;
+this.getBishopMoves = function(num,color,str,func){
+    var thisMoveBoard = this.newBoard(str);
+    var thisMovePieces = this.createPiecesArr(thisMoveBoard);
+    for (var topRightFile=1;topRightFile<8;topRightFile++){
+        if (num-(topRightFile*7)>=0 && (num-(topRightFile*7))%8!==0){
+            if (!thisMovePieces[num-(topRightFile*7)]){
+                if (!func(this.swapBoardString(str,num,num-(topRightFile*7)),color)){
+                    thisMovePieces[num].moves.push([num,num-(topRightFile*7)]);
+                }
+            } else if (thisMovePieces[num-(topRightFile*7)].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num-(topRightFile*7)),color)){
+                    thisMovePieces[num].moves.push([num,num-(topRightFile*7)]);
+                }
+                break;
+            } else if (thisMovePieces[num-(topRightFile*7)].color===color){
+                break;
+            }
+        } else {
+            break;
+        }
+    }
+    for (var topLeftFile=1;topLeftFile<8;topLeftFile++){
+        if (num-(topLeftFile*9)>=0 && (num-(topLeftFile*9))%8!==7){
+            if (!thisMovePieces[num-(topLeftFile*9)]){
+                if (!func(this.swapBoardString(str,num,num-(topLeftFile*9)),color)){
+                    thisMovePieces[num].moves.push([num,num-(topLeftFile*9)]);
+                }
+            } else if (thisMovePieces[num-(topLeftFile*9)].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num-(topLeftFile*9)),color)){
+                    thisMovePieces[num].moves.push([num,num-(topLeftFile*9)]);
+                }
+                break;
+            } else if (thisMovePieces[num-(topLeftFile*9)].color===color){
+                break;
+            }
+        } else {
+            break;
+        }
+    }
+    for (var bottomRightFile=1;bottomRightFile<8;bottomRightFile++){
+        if (num+(bottomRightFile*7)<=63 && (num+(bottomRightFile*7))%8!==7){
+            if (!thisMovePieces[num+(bottomRightFile*7)]){
+                if (!func(this.swapBoardString(str,num,num+(bottomRightFile*7)),color)){
+                    thisMovePieces[num].moves.push([num,num+(bottomRightFile*7)]);
+                }
+            } else if (thisMovePieces[num+(bottomRightFile*7)].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num+(bottomRightFile*7)),color)){
+                    thisMovePieces[num].moves.push([num,num+(bottomRightFile*7)]);
+                }
+                break;
+            } else if (thisMovePieces[num+(bottomRightFile*7)].color===color){
+                break;
+            }
+        } else {
+            break;
+        }
+    }
+    for (var bottomLeftFile=1;bottomLeftFile<8;bottomLeftFile++){
+        if (num+(bottomLeftFile*9)<=63 && (num+(bottomLeftFile*9))%8!==0){
+            if (!thisMovePieces[num+(bottomLeftFile*9)]){
+                if (!func(this.swapBoardString(str,num,num+(bottomLeftFile*9)),color)){
+                    thisMovePieces[num].moves.push([num,num+(bottomLeftFile*9)]);
+                }
+            } else if (thisMovePieces[num+(bottomLeftFile*9)].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num+(bottomLeftFile*9)),color)){
+                    thisMovePieces[num].moves.push([num,num+(bottomLeftFile*9)]);
+                }
+                break;
+            } else if (thisMovePieces[num+(bottomLeftFile*9)].color===color){
+                break;
+            }
+        } else {
+            break;
+        }
+    }
+    return thisMovePieces[num].moves;
+}
    }
 
 addBorder(num){
@@ -145,6 +223,7 @@ check (str,color){
         }
     }
     else {
+      console.log(this);
         var king = color + "K";
         var kingSpace = Math.floor((str.indexOf(king)/2));
         var bishCheck = this.getBishopMoves(kingSpace,color,str,function(str,num){return false});
@@ -343,83 +422,7 @@ promote(str){
     }
 }
 
-getBishopMoves(num,color,str,func){
-    var thisMoveBoard = this.newBoard(str);
-    var thisMovePieces = this.createPiecesArr(thisMoveBoard);
-    for (var topRightFile=1;topRightFile<8;topRightFile++){
-        if (num-(topRightFile*7)>=0 && (num-(topRightFile*7))%8!==0){
-            if (!thisMovePieces[num-(topRightFile*7)]){
-                if (!func(this.swapBoardString(str,num,num-(topRightFile*7)),color)){
-                    thisMovePieces[num].moves.push([num,num-(topRightFile*7)]);
-                }
-            } else if (thisMovePieces[num-(topRightFile*7)].color===this.opposite(color)){
-                if (!func(this.swapBoardString(str,num,num-(topRightFile*7)),color)){
-                    thisMovePieces[num].moves.push([num,num-(topRightFile*7)]);
-                }
-                break;
-            } else if (thisMovePieces[num-(topRightFile*7)].color===color){
-                break;
-            }
-        } else {
-            break;
-        }
-    }
-    for (var topLeftFile=1;topLeftFile<8;topLeftFile++){
-        if (num-(topLeftFile*9)>=0 && (num-(topLeftFile*9))%8!==7){
-            if (!thisMovePieces[num-(topLeftFile*9)]){
-                if (!func(this.swapBoardString(str,num,num-(topLeftFile*9)),color)){
-                    thisMovePieces[num].moves.push([num,num-(topLeftFile*9)]);
-                }
-            } else if (thisMovePieces[num-(topLeftFile*9)].color===this.opposite(color)){
-                if (!func(this.swapBoardString(str,num,num-(topLeftFile*9)),color)){
-                    thisMovePieces[num].moves.push([num,num-(topLeftFile*9)]);
-                }
-                break;
-            } else if (thisMovePieces[num-(topLeftFile*9)].color===color){
-                break;
-            }
-        } else {
-            break;
-        }
-    }
-    for (var bottomRightFile=1;bottomRightFile<8;bottomRightFile++){
-        if (num+(bottomRightFile*7)<=63 && (num+(bottomRightFile*7))%8!==7){
-            if (!thisMovePieces[num+(bottomRightFile*7)]){
-                if (!func(this.swapBoardString(str,num,num+(bottomRightFile*7)),color)){
-                    thisMovePieces[num].moves.push([num,num+(bottomRightFile*7)]);
-                }
-            } else if (thisMovePieces[num+(bottomRightFile*7)].color===this.opposite(color)){
-                if (!func(this.swapBoardString(str,num,num+(bottomRightFile*7)),color)){
-                    thisMovePieces[num].moves.push([num,num+(bottomRightFile*7)]);
-                }
-                break;
-            } else if (thisMovePieces[num+(bottomRightFile*7)].color===color){
-                break;
-            }
-        } else {
-            break;
-        }
-    }
-    for (var bottomLeftFile=1;bottomLeftFile<8;bottomLeftFile++){
-        if (num+(bottomLeftFile*9)<=63 && (num+(bottomLeftFile*9))%8!==0){
-            if (!thisMovePieces[num+(bottomLeftFile*9)]){
-                if (!func(this.swapBoardString(str,num,num+(bottomLeftFile*9)),color)){
-                    thisMovePieces[num].moves.push([num,num+(bottomLeftFile*9)]);
-                }
-            } else if (thisMovePieces[num+(bottomLeftFile*9)].color===this.opposite(color)){
-                if (!func(this.swapBoardString(str,num,num+(bottomLeftFile*9)),color)){
-                    thisMovePieces[num].moves.push([num,num+(bottomLeftFile*9)]);
-                }
-                break;
-            } else if (thisMovePieces[num+(bottomLeftFile*9)].color===color){
-                break;
-            }
-        } else {
-            break;
-        }
-    }
-    return thisMovePieces[num].moves;
-}
+
 getRookMoves(num,color,str,func){
     var thisMoveBoard = this.newBoard(str);
     var thisMovePieces = this.createPiecesArr(thisMoveBoard);
@@ -765,6 +768,7 @@ getKnightMoves(num,color,str,func){
 }
 
 getPawnMoves(num,color,str,func){
+  console.log(this);
     var thisMoveBoard = this.newBoard(str);
     var thisMovePieces = this.createPiecesArr(thisMoveBoard);
     if (color==="w"){
@@ -967,8 +971,8 @@ displayCapturedPiece(piece){
         graveyard = document.getElementById("takenblack");
     }
     var smallImg = new Image(40,40);
-    smallImg.src = "./img/" + piece.color + piece.type + ".png";
-    smallImg.style = "margin-top:0";
+    smallImg.src = "src/app/chess/img/" + piece.color + piece.type + ".png";
+    smallImg.style = "margin-top:-76px";
     graveyard.append(smallImg);
 }
 
@@ -1066,7 +1070,7 @@ addPiece (str){
     };
     newPiece.color = str[0];
     newPiece.type = str[1];
-    newPiece.image.src = './img/' + str + '.png';
+    newPiece.image.src = 'src/app/chess/img/' + str + '.png';
     return newPiece;
 }
 
@@ -1135,7 +1139,7 @@ doThing(){
     }
 }
 doCompMove(str){
-    getCompMove(str);
+    this.getCompMove(str);
 }
 removeImages(){
     var boxes = document.getElementsByClassName("box64");
