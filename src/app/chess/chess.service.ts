@@ -1389,7 +1389,7 @@ getCompMove(str){
         }
         board.possibleNextBoards[nextboards].worstMove = {
             index: this.getWorstCase(board.possibleNextBoards[nextboards]),
-            move: board.possibleNextBoards[nextboards].possibleNextBoardsthis.[getWorstCase(board.possibleNextBoards[nextboards])]
+            move: board.possibleNextBoards[nextboards].possibleNextBoardsthis[this.getWorstCase(board.possibleNextBoards[nextboards])]
         }
         board.possibleNextBoards[nextboards].scores.push(board.possibleNextBoards[nextboards].worstMove.move.scores[0]);
     }
