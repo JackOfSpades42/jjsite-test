@@ -633,18 +633,18 @@ getKingMoves(num,color,str,func){
     return movesArr;
 }
 
-function getKnightMoves(num,color,str,func){
+getKnightMoves(num,color,str,func){
     var thisMoveBoard = newBoard(str);
-    var thisMovePieces = createPiecesArr(thisMoveBoard);
+    var thisMovePieces = this.createPiecesArr(thisMoveBoard);
     if (num-17 >=0){
         if (num%8!==0){
             if (!thisMovePieces[num-17]){
-                if (!func(swapBoardString(str,num,num-17),color)){
+                if (!func(this.swapBoardString(str,num,num-17),color)){
                     thisMovePieces[num].moves.push([num,num-17]);
                 }
             } 
-            else if (thisMovePieces[num-17].color===opposite(color)){
-                if (!func(swapBoardString(str,num,num-17),color)){
+            else if (thisMovePieces[num-17].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num-17),color)){
                     thisMovePieces[num].moves.push([num,num-17]);
                 }
             }
@@ -654,12 +654,12 @@ function getKnightMoves(num,color,str,func){
     if (num-15 >=0){
         if (num%8!==7){
             if (!thisMovePieces[num-15]){
-                if (!func(swapBoardString(str,num,num-15),color)){
+                if (!func(this.swapBoardString(str,num,num-15),color)){
                     thisMovePieces[num].moves.push([num,num-15]);
                 }
             } 
-            else if (thisMovePieces[num-15].color===opposite(color)){
-                if (!func(swapBoardString(str,num,num-15),color)){
+            else if (thisMovePieces[num-15].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num-15),color)){
                     thisMovePieces[num].moves.push([num,num-15]);
                 }
             }
@@ -669,12 +669,12 @@ function getKnightMoves(num,color,str,func){
     if (num-10 >=0){
         if (num%8>1){
             if (!thisMovePieces[num-10]){
-                if (!func(swapBoardString(str,num,num-10),color)){
+                if (!func(this.swapBoardString(str,num,num-10),color)){
                     thisMovePieces[num].moves.push([num,num-10]);
                 }
             } 
-            else if (thisMovePieces[num-10].color===opposite(color)){
-                if (!func(swapBoardString(str,num,num-10),color)){
+            else if (thisMovePieces[num-10].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num-10),color)){
                     thisMovePieces[num].moves.push([num,num-10]);
                 }
             }
@@ -684,12 +684,12 @@ function getKnightMoves(num,color,str,func){
     if (num-6 >=0){
         if (num%8<6){
             if (!thisMovePieces[num-6]){
-                if (!func(swapBoardString(str,num,num-6),color)){
+                if (!func(this.swapBoardString(str,num,num-6),color)){
                     thisMovePieces[num].moves.push([num,num-6]);
                 }
             } 
-            else if (thisMovePieces[num-6].color===opposite(color)){
-                if (!func(swapBoardString(str,num,num-6),color)){
+            else if (thisMovePieces[num-6].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num-6),color)){
                     thisMovePieces[num].moves.push([num,num-6]);
                 }
             }
@@ -699,12 +699,12 @@ function getKnightMoves(num,color,str,func){
     if (num+17<=63){
         if (num%8!==7){
             if (!thisMovePieces[num+17]){
-                if (!func(swapBoardString(str,num,num+17),color)){
+                if (!func(this.swapBoardString(str,num,num+17),color)){
                     thisMovePieces[num].moves.push([num,num+17]);
                 }
             } 
-            else if (thisMovePieces[num+17].color===opposite(color)){
-                if (!func(swapBoardString(str,num,num+17),color)){
+            else if (thisMovePieces[num+17].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num+17),color)){
                     thisMovePieces[num].moves.push([num,num+17]);
                 }
             }
@@ -714,12 +714,12 @@ function getKnightMoves(num,color,str,func){
     if (num+15<=63){
         if (num%8!==0){
             if (!thisMovePieces[num+15]){
-                if (!func(swapBoardString(str,num,num+15),color)){
+                if (!func(this.swapBoardString(str,num,num+15),color)){
                     thisMovePieces[num].moves.push([num,num+15]);
                 }
             }
-            else if (thisMovePieces[num+15].color===opposite(color)){
-                if (!func(swapBoardString(str,num,num+15),color)){
+            else if (thisMovePieces[num+15].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num+15),color)){
                     thisMovePieces[num].moves.push([num,num+15]);
                 }
             }
@@ -729,12 +729,12 @@ function getKnightMoves(num,color,str,func){
     if (num+10<=63){
         if (num%8<6){
             if (!thisMovePieces[num+10]){
-                if (!func(swapBoardString(str,num,num+10),color)){
+                if (!func(this.swapBoardString(str,num,num+10),color)){
                     thisMovePieces[num].moves.push([num,num+10]);
                 }
             } 
-            else if (thisMovePieces[num+10].color===opposite(color)){
-                if (!func(swapBoardString(str,num,num+10),color)){
+            else if (thisMovePieces[num+10].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num+10),color)){
                     thisMovePieces[num].moves.push([num,num+10]);
                 }
             }
@@ -744,12 +744,12 @@ function getKnightMoves(num,color,str,func){
     if (num+6<=63){
         if (num%8>1){
             if (!thisMovePieces[num+6]){
-                if (!func(swapBoardString(str,num,num+6),color)){
+                if (!func(this.swapBoardString(str,num,num+6),color)){
                     thisMovePieces[num].moves.push([num,num+6]);
                 }
             } 
-            else if (thisMovePieces[num+6].color===opposite(color)){
-                if (!func(swapBoardString(str,num,num+6),color)){
+            else if (thisMovePieces[num+6].color===this.opposite(color)){
+                if (!func(this.swapBoardString(str,num,num+6),color)){
                     thisMovePieces[num].moves.push([num,num+6]);
                 }
             }
@@ -758,85 +758,85 @@ function getKnightMoves(num,color,str,func){
     return thisMovePieces[num].moves;
 }
 
-function getPawnMoves(num,color,str,func){
+getPawnMoves(num,color,str,func){
     var thisMoveBoard = newBoard(str);
-    var thisMovePieces = createPiecesArr(thisMoveBoard);
+    var thisMovePieces = this.createPiecesArr(thisMoveBoard);
     if (color==="w"){
         var EP1 = [num-15,num+1];
         var EP2 = [num-17,num-1];
         if (thisMovePieces[num+1]){
-            if (arrayEqual(EP1,lastmove) && thisMovePieces[num+1].type==="P" && num%8!==7){
-                if (!func(swapBoardString(str,num,num-7),color)){
+            if (this.arrayEqual(EP1,this.lastmove) && thisMovePieces[num+1].type==="P" && num%8!==7){
+                if (!func(this.swapBoardString(str,num,num-7),color)){
                     thisMovePieces[num].moves.push([num,num-7]);
                 }
             }
         }
         if (thisMovePieces[num-1]){
-            if (arrayEqual(EP2,lastmove) && thisMovePieces[num-1].type==="P" && num%8!==0){
-                if (!func(swapBoardString(str,num,num-9),color)){
+            if (this.arrayEqual(EP2,this.lastmove) && thisMovePieces[num-1].type==="P" && num%8!==0){
+                if (!func(this.swapBoardString(str,num,num-9),color)){
                     thisMovePieces[num].moves.push([num,num-9]);
                 }
             }
         }
         if (thisMovePieces[num-7]){
             if (thisMovePieces[num-7]&& thisMovePieces[num-7].color==="b" && num%8!==7){
-                if (!func(swapBoardString(str,num,num-7),color)){
+                if (!func(this.swapBoardString(str,num,num-7),color)){
                     thisMovePieces[num].moves.push([num,num-7]);
                 }
             }
         }
         if (thisMovePieces[num-9]){
             if (thisMovePieces[num-9] && thisMovePieces[num-9].color==="b" && num%8!==0){
-                if (!func(swapBoardString(str,num,num-9),color)){
+                if (!func(this.swapBoardString(str,num,num-9),color)){
                     thisMovePieces[num].moves.push([num,num-9]);
                 }
             }
         }
         if (!thisMovePieces[num-8]){
-            if (!func(swapBoardString(str,num,num-8),color)){
+            if (!func(this.swapBoardString(str,num,num-8),color)){
                 thisMovePieces[num].moves.push([num,num-8]);
             }
             if (num/8>=6 && !thisMovePieces[num-16]){
-                if (!func(swapBoardString(str,num,num-16),color)){
+                if (!func(this.swapBoardString(str,num,num-16),color)){
                     thisMovePieces[num].moves.push([num,num-16]);
                 }
             }
         }
     } else if (color==="b"){
         if (thisMovePieces[num+1]){
-            if (arrayEqual(lastmove,[num+17,num+1]) && thisMovePieces[num+1].type==="P" && num%8!==0){
-                if (!func(swapBoardString(str,num,num+9),color)){
+            if (this.arrayEqual(this.lastmove,[num+17,num+1]) && thisMovePieces[num+1].type==="P" && num%8!==0){
+                if (!func(this.swapBoardString(str,num,num+9),color)){
                     thisMovePieces[num].moves.push([num,num+9]);
                 }
             }
         }
         if (thisMovePieces[num-1]){
-            if (arrayEqual(lastmove,[num+15,num-1]) && thisMovePieces[num-1].type==="P" && num%8!==7){
-                if (!func(swapBoardString(str,num,num+7),color)){
+            if (this.arrayEqual(this.lastmove,[num+15,num-1]) && thisMovePieces[num-1].type==="P" && num%8!==7){
+                if (!func(this.swapBoardString(str,num,num+7),color)){
                     thisMovePieces[num].moves.push([num,num+7]);
                 }
             }
         }
         if (thisMovePieces[num+7]){
             if (thisMovePieces[num+7]&& thisMovePieces[num+7].color==="w" && num%8!==0){
-                if (!func(swapBoardString(str,num,num+7),color)){
+                if (!func(this.swapBoardString(str,num,num+7),color)){
                     thisMovePieces[num].moves.push([num,num+7]);
                 }
             }
         }
         if (thisMovePieces[num+9]){
             if (thisMovePieces[num+9] && thisMovePieces[num+9].color==="w" && num%8!==7){
-                if (!func(swapBoardString(str,num,num+9),color)){
+                if (!func(this.swapBoardString(str,num,num+9),color)){
                     thisMovePieces[num].moves.push([num,num+9]);
                 }
             }
         }
         if (!thisMovePieces[num+8]){
-            if (!func(swapBoardString(str,num,num+8),color)){
+            if (!func(this.swapBoardString(str,num,num+8),color)){
                 thisMovePieces[num].moves.push([num,num+8]);
             }
             if (num/8<2 && !thisMovePieces[num+16]){
-                if (!func(swapBoardString(str,num,num+16),color)){
+                if (!func(this.swapBoardString(str,num,num+16),color)){
                     thisMovePieces[num].moves.push([num,num+16]);
                 }
             }
@@ -845,66 +845,66 @@ function getPawnMoves(num,color,str,func){
     return thisMovePieces[num].moves;
 }
 
-function findMoves(num,type,color,str){
+findMoves(num,type,color,str){
     var moveArr = [];
     if (type==="P"){
-        moveArr = getPawnMoves(num,color,str,check);
+        moveArr = this.getPawnMoves(num,color,str,this.check);
     } else if (type==="N"){
-        moveArr = getKnightMoves(num,color,str,check);
+        moveArr = this.getKnightMoves(num,color,str,this.check);
     } else if (type==="B"){
-        moveArr = getBishopMoves(num,color,str,check);
+        moveArr = this.getBishopMoves(num,color,str,this.check);
     } else if (type==="R"){
-        moveArr = getRookMoves(num,color,str,check);
+        moveArr = this.getRookMoves(num,color,str,this.check);
     } else if (type==="Q"){
-        moveArr = getBishopMoves(num,color,str,check);
-        var qRookMoves = getRookMoves(num,color,str,check);
+        moveArr = this.getBishopMoves(num,color,str,this.check);
+        var qRookMoves = this.getRookMoves(num,color,str,this.check);
         for (var addRookMoves=0;addRookMoves<qRookMoves.length;addRookMoves++){
             moveArr.push(qRookMoves[addRookMoves]);
         }
     } else if (type==="K"){
-        moveArr = getKingMoves(num,color,str,check);
+        moveArr = this.getKingMoves(num,color,str,this.check);
     }
     return moveArr;
 }
 
-function showMove(num,type,color,str){
-    removeImages();
-    board = newBoard(boardString);
-    pieces = createPiecesArr(board);
+showMove(num,type,color,str){
+    this.removeImages();
+    this.board = newBoard(this.boardString);
+    this.pieces = this.createPiecesArr(this.board);
     doThing();
-    pieces[num].moves = [];
-    clearBorders();
-    pieces[num].moves = findMoves(num,type,color,str);
-    addSelectionBorder(num);
-    for (var mov=0;mov<pieces[num].moves.length;mov++){
-        addBorder(pieces[num].moves[mov][1]);
-        addDestinationFunction(num,pieces[num].moves[mov][1],str);
+    this.pieces[num].moves = [];
+    this.clearBorders();
+    this.pieces[num].moves = this.findMoves(num,type,color,str);
+    this.addSelectionBorder(num);
+    for (var mov=0;mov<this.pieces[num].moves.length;mov++){
+        this.addBorder(this.pieces[num].moves[mov][1]);
+        addDestinationFunction(num,this.pieces[num].moves[mov][1],str);
     }
     
 }
 
-function displayMove(num1,num2,str){
-    var innerString = pieces[num1].type;
+displayMove(num1,num2,str){
+    var innerString = this.pieces[num1].type;
     var scoresheet = document.getElementById("scoresheet");
-    if (pieces[num2]){
+    if (this.pieces[num2]){
         innerString += "x";
     }
-    innerString += findFile(num2%8);
-    innerString += findRank(Math.floor(num2/8));
-    if (pieces[num1].type==="P"){
+    innerString += this.findFile(num2%8);
+    innerString += this.findRank(Math.floor(num2/8));
+    if (this.pieces[num1].type==="P"){
         innerString = innerString.substring(1,innerString.length);
         if (innerString[0]==="x"){
-            innerString = findFile(num1%8) + innerString;
+            innerString = this.findFile(num1%8) + innerString;
         }
     }
-    var newStr = swapBoardString(str,num1,num2);
-    if (((num1===60 && num2===62) || (num1===4 && num2===6)) && pieces[num1].type==="K"){
+    var newStr = this.swapBoardString(str,num1,num2);
+    if (((num1===60 && num2===62) || (num1===4 && num2===6)) && this.pieces[num1].type==="K"){
         innerString = "O-O";
-    } else if (((num1===60 && num2===58) || (num1===4 && num2===2)) && pieces[num1].type==="K"){
+    } else if (((num1===60 && num2===58) || (num1===4 && num2===2)) && this.pieces[num1].type==="K"){
         innerString = "O-O-O";
     }
-    if (check(newStr,newStr[128])){
-        if (checkmate(newStr)===true){
+    if (this.check(newStr,newStr[128])){
+        if (this.checkmate(newStr)===true){
             innerString += "#";
         } else {
             innerString += "+";
@@ -932,14 +932,14 @@ function displayMove(num1,num2,str){
     }
 }
 
-function goBackTo(str){
-    removeImages();
-    clearBorders();
-    if (str===boardString){
+goBackTo(str){
+    this.removeImages();
+    this.clearBorders();
+    if (str===this.boardString){
         doThing();
     } else {
-        var backBoard = newBoard(str);
-        var backPieces = createPiecesArr(backBoard);
+        var backBoard = this.newBoard(str);
+        var backPieces = this.createPiecesArr(backBoard);
         var boxes = document.getElementsByClassName("box64");
         for (var backshow=0;backshow<backPieces.length;backshow++){
             if (backPieces[backshow]){
@@ -951,7 +951,7 @@ function goBackTo(str){
     }
 }
 
-function displayCapturedPiece(piece){
+displayCapturedPiece(piece){
     var graveyard;
     if (piece.color==="w"){
         graveyard = document.getElementById("takenwhite");
@@ -964,81 +964,81 @@ function displayCapturedPiece(piece){
     graveyard.append(smallImg);
 }
 
-function Destination(num1,num2,str){
-    removeImages();
+Destination(num1,num2,str){
+    this.removeImages();
     //console.log(num2);
-    displayMove(num1,num2,str);
-    if (pieces[num2]){
-        displayCapturedPiece(pieces[num2]);
+    this.displayMove(num1,num2,str);
+    if (this.pieces[num2]){
+        this.displayCapturedPiece(this.pieces[num2]);
     }
-    boardString = swapBoardString(boardString,num1,num2);
+    this.boardString = this.swapBoardString(this.boardString,num1,num2);
     if (num1===60 && num2===62){
-        boardString = swapBoardString(boardString,63,61);
-        boardString = boardString.substring(0,boardString.length-1);
-        boardString += opposite(pieces[num1].color);
+        this.boardString = this.swapBoardString(this.boardString,63,61);
+        this.boardString = this.boardString.substring(0,this.boardString.length-1);
+        this.boardString += this.opposite(this.pieces[num1].color);
     } else if (num1===60 && num2===58){
-        boardString = swapBoardString(boardString,56,59);
-        boardString = boardString.substring(0,boardString.length-1);
-        boardString += opposite(pieces[num1].color);
+        this.boardString = this.swapBoardString(this.boardString,56,59);
+        this.boardString = this.boardString.substring(0,this.boardString.length-1);
+        this.boardString += this.opposite(this.pieces[num1].color);
     } else if (num1===4 && num2===6){
-        boardString = swapBoardString(boardString,7,5);
-        boardString = boardString.substring(0,boardString.length-1);
-        boardString += opposite(pieces[num1].color);
+        this.boardString = this.swapBoardString(this.boardString,7,5);
+        this.boardString = this.boardString.substring(0,this.boardString.length-1);
+        this.boardString += this.opposite(this.pieces[num1].color);
     } else if (num1===4 && num2===2){
-        boardString = swapBoardString(boardString,0,3);
-        boardString = boardString.substring(0,boardString.length-1);
-        boardString += opposite(pieces[num1].color);
+        this.boardString = this.swapBoardString(this.boardString,0,3);
+        this.boardString = this.boardString.substring(0,this.boardString.length-1);
+        this.boardString += this.opposite(this.pieces[num1].color);
     }
-    if (pieces[num1].type==="P"){
-        if (num2===num1-7 && !pieces[num2]){
-            var newString = boardString.substring(0,(num2)*2+16);
+    if (this.pieces[num1].type==="P"){
+        if (num2===num1-7 && !this.pieces[num2]){
+            var newString = this.boardString.substring(0,(num2)*2+16);
             newString += 'ee';
-            newString += boardString.substring((num2)*2+18,boardString.length);
-            boardString = newString;
-        } else if (num2===num1-9 && !pieces[num2]){
-            var newString = boardString.substring(0,(num2)*2+16);
+            newString += this.boardString.substring((num2)*2+18,this.boardString.length);
+            this.boardString = newString;
+        } else if (num2===num1-9 && !this.pieces[num2]){
+            var newString = this.boardString.substring(0,(num2)*2+16);
             newString += 'ee';
-            newString += boardString.substring((num2)*2+18,boardString.length);
-            boardString = newString;
-        } else if (num2===num1+7 && !pieces[num2]){
-            var newString = boardString.substring(0,(num2)*2-16);
+            newString += this.boardString.substring((num2)*2+18,this.boardString.length);
+            this.boardString = newString;
+        } else if (num2===num1+7 && !this.pieces[num2]){
+            var newString = this.boardString.substring(0,(num2)*2-16);
             newString += 'ee';
-            newString += boardString.substring((num2)*2-14,boardString.length);
-            boardString = newString;
-        } else if (num2===num1+9 && !pieces[num2]){
-            var newString = boardString.substring(0,(num2)*2-16);
+            newString += this.boardString.substring((num2)*2-14,this.boardString.length);
+            this.boardString = newString;
+        } else if (num2===num1+9 && !this.pieces[num2]){
+            var newString = this.boardString.substring(0,(num2)*2-16);
             newString += 'ee';
-            newString += boardString.substring((num2)*2-14,boardString.length);
-            boardString = newString;
+            newString += this.boardString.substring((num2)*2-14,this.boardString.length);
+            this.boardString = newString;
         }
         if (Math.floor(num2/8)===0 || Math.floor(num2/8)===7){
-            getPromotePiece(boardString);
+            this.getPromotePiece(this.boardString);
         }
     }
-    board = newBoard(boardString);
-    pieces = createPiecesArr(board);
-    clearBorders();
+    this.board = this.newBoard(this.boardString);
+    this.pieces = this.createPiecesArr(this.board);
+    this.clearBorders();
     if (num1===60){
-        canCastle.wKmoved = 1;
+        this.canCastle.wKmoved = 1;
     } else if (num1===4){
-        canCastle.bKmoved = 1;
+        this.canCastle.bKmoved = 1;
     } else if (num1===0){
-        canCastle.bRLmoved = 1;
+        this.canCastle.bRLmoved = 1;
     } else if (num1===7){
-        canCastle.bRRmoved = 1;
+        this.canCastle.bRRmoved = 1;
     } else if (num1===63){
-        canCastle.wRRmoved = 1;
+        this.canCastle.wRRmoved = 1;
     } else if (num1===56){
-        canCastle.wRLmoved = 1;
+        this.canCastle.wRLmoved = 1;
     }
-    lastmove = [num1,num2];
+    this.lastmove = [num1,num2];
     var boxes = document.getElementsByClassName("box64");
     boxes[num1].style.border = "2px solid green";
     boxes[num2].style.border = "2px solid green";
     doThing();
 }
 
-function newBoard(str){
+newBoard(str){
     var newBoard = [];
     for (var aa=0;aa<128;aa++){
         newBoard[aa/2] = str[aa] + str[aa+1];
