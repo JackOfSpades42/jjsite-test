@@ -12,6 +12,7 @@ gameover;
 pieces;
 playerColor;
 compColor;
+count;
   constructor() {
     this.boardString = 'bRbNbBbQbKbBbNbR'
 
@@ -41,6 +42,7 @@ this.gameover = "";
 this.pieces = this.createPiecesArr(this.board);
 this. playerColor = "w";
 this. compColor = "b";
+this.count = 0;
    }
 
 addBorder(num){
@@ -1186,7 +1188,7 @@ getScore(str){
         0.25,0.25,-0.25,-0.25,-0.25,-0.25,0.25,0.25,
         0,0,0,0,0,0,0,0,
     ]
-    var bPawnArr = inverse(wPawnArr);
+    var bPawnArr = this.inverse(wPawnArr);
     var wRookArr = [
         0,0,0,0,0,0,0,0,
         0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,
@@ -1197,7 +1199,7 @@ getScore(str){
         -0.25,0,0,0,0,0,0,-0.25,
         -0.5,-1,0,0,0,0,-1,-0.5
     ];
-    var bRookArr = inverse(wRookArr);
+    var bRookArr = this.inverse(wRookArr);
     var wBishArr = [
         -0.5,-0.25,-0.25,-0.25,-0.25,-0.25,-0.25,-0.5,
         -0.25,0,0,0,0,0,0,-0.25,
@@ -1208,7 +1210,7 @@ getScore(str){
         -0.25,0,0,0,0,0,0,-0.25,
         -0.5,-0.25,-0.25,-0.25,-0.25,-0.25,-0.25,-0.5
     ]
-    var bBishArr = inverse(wBishArr);
+    var bBishArr = this.inverse(wBishArr);
     var QueenArr = [
         -1,-0.5,-0.25,0,0,-0.25,-0.5,-1,
         -0.5,0,0,0,0,0,0,-0.5,
@@ -1229,8 +1231,8 @@ getScore(str){
         -0.75,-0.25,-0.25,0,0,-0.25,-0.25,-0.75,
         -1,-0.4,-0.5,-0.5,-0.5,-0.5,-0.4,-1,
     ]
-    scoreBoard = newBoard(str);
-    scorePieces = createPiecesArr(scoreBoard);
+    let scoreBoard = this.newBoard(str);
+    let scorePieces = this.createPiecesArr(scoreBoard);
     var score = 0;
     var compObj  = {
         B: 0,
@@ -1242,18 +1244,18 @@ getScore(str){
         N:0,
         R:0
     }
-    var isCheck = check(str,str[128])
+    var isCheck = this.check(str,str[128])
     if (isCheck){
-        var CM = checkmate(str);
+        var CM = this.checkmate(str);
         if (CM===true){
-            if (str[128]===playerColor){
+            if (str[128]===this.playerColor){
                 return 9001;
-            } else if (str[128]===compColor){
+            } else if (str[128]===this.compColor){
                 return -9001;
             }
         }
-    } else if (!isCheck && CurrentMove>=30){
-        var stalemate = checkmate(str);
+    } else if (!isCheck && this.CurrentMove>=30){
+        var stalemate = this.checkmate(str);
         if (stalemate==="s"){
             return -9000;
         }
@@ -1261,8 +1263,8 @@ getScore(str){
     for (var scoring=0;scoring<scorePieces.length;scoring++){
         if (scorePieces[scoring]){
             var thisPiece = scorePieces[scoring];
-            if (thisPiece.color===compColor){
-                score += pieceScore(thisPiece.type);
+            if (thisPiece.color===this.compColor){
+                score += this.pieceScore(thisPiece.type);
                 if (thisPiece.type==="N"){
                     score += KnightArr[scoring]/2;
                     compObj.N += 1;
@@ -1277,8 +1279,8 @@ getScore(str){
                 } else if (thisPiece.type==="P"){
                     score += bPawnArr[scoring]/2;
                 }
-            } else if (thisPiece.color===playerColor){
-                score -= pieceScore(thisPiece.type);
+            } else if (thisPiece.color===this.playerColor){
+                score -= this.pieceScore(thisPiece.type);
                 if (thisPiece.type==="N"){
                     score += KnightArr[scoring]/2;
                     playerObj.N += 1;
@@ -1318,15 +1320,15 @@ getScore(str){
     return score;
 }
 
-function getAllMoves(str){
-    var movesBoard = newBoard(str);
-    var movesPieces = createPiecesArr(movesBoard);
+getAllMoves(str){
+    var movesBoard = this.newBoard(str);
+    var movesPieces = this.createPiecesArr(movesBoard);
     var allMoves = [];
     for (var movesc=0;movesc<movesPieces.length;movesc++){
         if (movesPieces[movesc]){
             var thisPiece = movesPieces[movesc];
             if (thisPiece.color===str[128]){
-                thisPiece.moves = findMoves(movesc,thisPiece.type,thisPiece.color,str);
+                thisPiece.moves = this.findMoves(movesc,thisPiece.type,thisPiece.color,str);
                 for (var pushc=0;pushc<thisPiece.moves.length;pushc++){
                     allMoves.push(thisPiece.moves[pushc]);
                 }
@@ -1335,8 +1337,7 @@ function getAllMoves(str){
     }
     return allMoves;
 }
-var count=0;
-function getBoardObjFromString(str,moveFunc){
+getBoardObjFromString(str,moveFunc){
     var boardObj = {
         string:str,
         color: str[128]
@@ -1346,20 +1347,20 @@ function getBoardObjFromString(str,moveFunc){
     boardObj.possibleNextBoards = [];
     boardObj.scores = [];
     //console.log(boardObj.movesArr);
-    count++;
+    this.count++;
     if (boardObj.movesArr.length>0){
         for (var movestrings=0;movestrings<boardObj.movesArr.length;movestrings++){
-            boardObj.moveStrings.push(swapBoardString(boardObj.string,boardObj.movesArr[movestrings][0],boardObj.movesArr[movestrings][1]));
+            boardObj.moveStrings.push(this.swapBoardString(boardObj.string,boardObj.movesArr[movestrings][0],boardObj.movesArr[movestrings][1]));
         }
     }
     return boardObj;
 }
 
-function getFinalDepthMoveScores(board){
-    board.scores.push(getScore(board.string));
+getFinalDepthMoveScores(board){
+    board.scores.push(this.getScore(board.string));
 }
 
-function getWorstCase(board){
+getWorstCase(board){
     var worstMove = 0;
     for(var worstcase=0;worstcase<board.possibleNextBoards.length;worstcase++){
         if (board.possibleNextBoards[worstcase].scores[0]<board.possibleNextBoards[worstMove].scores[0]){
@@ -1368,7 +1369,7 @@ function getWorstCase(board){
     }
     return worstMove;
 }
-function getBestCase(board){
+getBestCase(board){
     var bestMove = 0;
     for(var bestcase=0;bestcase<board.possibleNextBoards.length;bestcase++){
         if (board.possibleNextBoards[bestcase].scores[0]>board.possibleNextBoards[bestMove].scores[0]){
@@ -1377,47 +1378,47 @@ function getBestCase(board){
     }
     return bestMove;
 }
-function getCompMove(str){
+getCompMove(str){
     console.time("CompMove");
-    var board = getBoardObjFromString(str,getAllMoves);
+    var board = this.getBoardObjFromString(str,this.getAllMoves);
     for (var nextboards=0;nextboards<board.movesArr.length;nextboards++){
-        board.possibleNextBoards.push(getBoardObjFromString(board.moveStrings[nextboards],getAllMoves));
+        board.possibleNextBoards.push(this.getBoardObjFromString(board.moveStrings[nextboards],this.getAllMoves));
         for (var depth2=0;depth2<board.possibleNextBoards[nextboards].movesArr.length;depth2++){
-            board.possibleNextBoards[nextboards].possibleNextBoards.push(getBoardObjFromString(board.possibleNextBoards[nextboards].moveStrings[depth2],function(){return[];}));
-            getFinalDepthMoveScores(board.possibleNextBoards[nextboards].possibleNextBoards[depth2]);
+            board.possibleNextBoards[nextboards].possibleNextBoards.push(this.getBoardObjFromString(board.possibleNextBoards[nextboards].moveStrings[depth2],function(){return[];}));
+            this.getFinalDepthMoveScores(board.possibleNextBoards[nextboards].possibleNextBoards[depth2]);
         }
         board.possibleNextBoards[nextboards].worstMove = {
-            index: getWorstCase(board.possibleNextBoards[nextboards]),
-            move: board.possibleNextBoards[nextboards].possibleNextBoards[getWorstCase(board.possibleNextBoards[nextboards])]
+            index: this.getWorstCase(board.possibleNextBoards[nextboards]),
+            move: board.possibleNextBoards[nextboards].possibleNextBoardsthis.[getWorstCase(board.possibleNextBoards[nextboards])]
         }
         board.possibleNextBoards[nextboards].scores.push(board.possibleNextBoards[nextboards].worstMove.move.scores[0]);
     }
     board.bestMove = {
-        index: getBestCase(board),
-        move: board.possibleNextBoards[getBestCase(board)]
+        index: this.getBestCase(board),
+        move: board.possibleNextBoards[this.getBestCase(board)]
     }
     board.scores.push(board.bestMove.move.scores[0]);
     console.log(board);
     //console.log(board.possibleNextBoards);
     console.timeEnd("CompMove");
-    console.log(count);
-    count = 0;
-    Destination(board.movesArr[board.bestMove.index][0],board.movesArr[board.bestMove.index][1],str);
+    console.log(this.count);
+    this.count = 0;
+    this.Destination(board.movesArr[board.bestMove.index][0],board.movesArr[board.bestMove.index][1],str);
 }
 
-function getCompMoveQuick(str){
+getCompMoveQuick(str){
     console.time("QuickMove");
-    var board = getBoardObjFromString(str,getAllMoves);
+    var board = this.getBoardObjFromString(str,this.getAllMoves);
     for (var ab=0;ab<board.movesArr.length;ab++){
-        board.possibleNextBoards.push(getBoardObjFromString(board.moveStrings[ab],getAllMoves));
+        board.possibleNextBoards.push(this.getBoardObjFromString(board.moveStrings[ab],this.getAllMoves));
         if (ab==0){
             for (var bc=0;bc<board.possibleNextBoards[0].movesArr.length;bc++){
-                board.possibleNextBoards[0].possibleNextBoards.push(getBoardObjFromString(board.possibleNextBoards[0].moveStrings[bc],function(){return[];}));
-                getFinalDepthMoveScores(board.possibleNextBoards[0].possibleNextBoards[bc]);
+                board.possibleNextBoards[0].possibleNextBoards.push(this.getBoardObjFromString(board.possibleNextBoards[0].moveStrings[bc],function(){return[];}));
+                this.getFinalDepthMoveScores(board.possibleNextBoards[0].possibleNextBoards[bc]);
             }
             board.possibleNextBoards[0].worstMove = {
                 index: getWorstCase(board.possibleNextBoards[0]),
-                move: board.possibleNextBoards[0].possibleNextBoards[getWorstCase(board.possibleNextBoards[0])]
+                move: board.possibleNextBoards[0].possibleNextBoards[this.getWorstCase(board.possibleNextBoards[0])]
             }
             board.possibleNextBoards[0].scores.push(board.possibleNextBoards[0].worstMove.move.scores[0]);
         }
@@ -1425,9 +1426,9 @@ function getCompMoveQuick(str){
     console.log("move 0 score= " + board.possibleNextBoards[0].scores[0]);
 
     for (var boardCount=1;boardCount<board.movesArr.length;boardCount++){
-        board.possibleNextBoards.push(getBoardObjFromString(board.moveStrings[boardCount],getAllMoves));
+        board.possibleNextBoards.push(this.getBoardObjFromString(board.moveStrings[boardCount],this.getAllMoves));
         for (var ac=0;ac<board.possibleNextBoards[boardCount].movesArr.length;ac++){
-            board.possibleNextBoards[boardCount].possibleNextBoards.push(getBoardObjFromString(board.possibleNextBoards[boardCount].moveStrings[ac],function(){return[];}));
+            board.possibleNextBoards[boardCount].possibleNextBoards.push(this.getBoardObjFromString(board.possibleNextBoards[boardCount].moveStrings[ac],function(){return[];}));
             getFinalDepthMoveScores(board.possibleNextBoards[boardCount].possibleNextBoards[ac]);
             if (board.possibleNextBoards[boardCount].possibleNextBoards[ac].scores[0]<board.possibleNextBoards[0].scores[0]){
                 ac = board.possibleNextBoards[boardCount].movesArr.length;
@@ -1436,19 +1437,19 @@ function getCompMoveQuick(str){
         }
         if (board.possibleNextBoards[boardCount].scores[0]!=-999){
             board.possibleNextBoards[boardCount].worstMove = {
-                index: getWorstCase(board.possibleNextBoards[boardCount]),
-                move: board.possibleNextBoards[boardCount].possibleNextBoards[getWorstCase(board.possibleNextBoards[boardCount])]
+                index: this.getWorstCase(board.possibleNextBoards[boardCount]),
+                move: board.possibleNextBoards[boardCount].possibleNextBoards[this.getWorstCase(board.possibleNextBoards[boardCount])]
             }
             board.possibleNextBoards[0].scores.push(board.possibleNextBoards[boardCount].worstMove.move.scores[0]);
         }
     }
     board.bestMove = {
-        index: getBestCase(board),
-        move: board.possibleNextBoards[getBestCase(board)]
+        index: this.getBestCase(board),
+        move: board.possibleNextBoards[this.getBestCase(board)]
     }
     board.scores.push(board.bestMove.move.scores[0]);
     console.timeEnd("QuickMove");
-    Destination(board.movesArr[board.bestMove.index][0],board.movesArr[board.bestMove.index][1],str);
+    this.Destination(board.movesArr[board.bestMove.index][0],board.movesArr[board.bestMove.index][1],str);
 }
 
 }
