@@ -1048,85 +1048,88 @@ newBoard(str){
     return newBoard;
 }
 
-function addPiece (str){
-    var newPiece = {};
+addPiece (str){
+    var newPiece = {
+      color: "",
+      type: "",
+      image: new Image(),
+      space: 0,
+      moves: [],
+    };
     newPiece.color = str[0];
     newPiece.type = str[1];
-    newPiece.image = new Image();
     newPiece.image.src = './img/' + str + '.png';
-    newPiece.space;
-    newPiece.moves = [];
     return newPiece;
 }
 
-function addBorderFunction(boxes,num){
-    boxes.onclick = function(){addBorder(num);}
+addBorderFunction(boxes,num){
+    boxes.onclick = function(){this.addBorder(num);}
 }
 
-function addShowMoveFunction(boxes,num,type,color,str){
-    boxes.onclick = function(){showMove(num,type,color,str);}
+addShowMoveFunction(boxes,num,type,color,str){
+    boxes.onclick = function(){this.showMove(num,type,color,str);}
 }
 
-function clearOnclick(box){
+clearOnclick(box){
     box.onclick = function(){}
 }
 
-function addDestinationFunction(num1,num2,str){
+addDestinationFunction(num1,num2,str){
     var boxes = document.getElementsByClassName("box64");
-    boxes[num2].onclick = function(){Destination(num1,num2,str);}
+    boxes[num2].onclick = function(){this.Destination(num1,num2,str);}
 }
 
-function doThing(){
+doThing(){
     var boxes = document.getElementsByClassName("box64");
     for (var a=0;a<boxes.length;a++){
         boxes[a].style.cursor = "pointer";
     }
     for (var cc=0;cc<64;cc++){
-        if (pieces[cc]){
-            boxes[cc].append(pieces[cc].image);
-            pieces[cc].space = cc;
-            if (pieces[cc].color!==playerColor){
-                clearOnclick(boxes[cc]);
+        if (this.pieces[cc]){
+            boxes[cc].append(this.pieces[cc].image);
+            this.pieces[cc].space = cc;
+            if (this.pieces[cc].color!==playerColor){
+                this.clearOnclick(boxes[cc]);
             } else {
-                addShowMoveFunction(boxes[cc],cc,pieces[cc].type,pieces[cc].color,boardString);
+                this.addShowMoveFunction(boxes[cc],cc,this.pieces[cc].type,this.pieces[cc].color,this.boardString);
             }
         } else {
-            clearOnclick(boxes[cc]);
+            this.clearOnclick(boxes[cc]);
         }
     }
-    var CM2 = checkmate(boardString);
-    if (check(boardString,boardString[128]) && CM2===false){
-        if (document.body.lastChild!==checkShowing){
+    var CM2 = this.checkmate(this.boardString);
+    if (this.check(this.boardString,this.boardString[128]) && CM2===false){
+        if (document.body.lastChild!==this.checkShowing){
             document.body.append("Check!");
-            checkShowing = document.body.lastChild;
+            this.checkShowing = document.body.lastChild;
         }
-        var kingspace = boardString.indexOf(boardString[128] + "K");
+        var kingspace = this.boardString.indexOf(this.boardString[128] + "K");
         boxes[kingspace/2].style.border = "2px solid rgb(128,0,0)";
-    } else if (!check(boardString,boardString[128]) && CM2!=="s"){
-        if (document.body.lastChild===checkShowing){
+    } else if (!this.check(this.boardString,this.boardString[128]) && CM2!=="s"){
+        if (document.body.lastChild===this.checkShowing){
             document.body.removeChild(document.body.lastChild);
         }
     } else if (CM2===true){
-        if (document.body.lastChild!==gameover){
+        if (document.body.lastChild!==this.gameover){
             document.body.append("Checkmate!");
             alert("Game Over!");
-            gameover = document.body.lastChild;
+            this.gameover = document.body.lastChild;
         }
     } else if (CM2==="s"){
         alert("Stalemate!");
         document.body.append("Stalemate!");
     }
-    if (boardString[128]===compColor && gameover===""){
-        doCompMove(boardString)
-    } else if (boardString[128]===playerColor){
-        CurrentMove++;
-        console.log(CurrentMove);
+    if (this.boardString[128]===compColor && this.gameover===""){
+        doCompMove(this.boardString)
+    } else if (this.boardString[128]===playerColor){
+        this.CurrentMove++;
+        console.log(this.CurrentMove);
     }
 }
-function doCompMove(str){
+doCompMove(str){
     getCompMove(str);
 }
-function removeImages(){
+removeImages(){
     var boxes = document.getElementsByClassName("box64");
     for (var dd=0;dd<64;dd++){
         if (boxes[dd].lastChild.nodeType===1){
