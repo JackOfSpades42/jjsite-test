@@ -25,7 +25,7 @@ a{
   cursor:pointer;
 }
 .portrait{
-  margin-top: 10%;
+  margin-top: 3%;
   display:block;
   margin-left: auto;
   margin-right: auto;
@@ -34,7 +34,8 @@ a{
 }
 .middleBox{
   margin-top: -5%;
-  border: 2px solid teal;
+  /*border: 2px solid teal;*/
+  /*border: 2px solid lightblue;*/
   padding-top: 1%;
   padding-bottom: 6%;
   font-size: 3.5vw;
