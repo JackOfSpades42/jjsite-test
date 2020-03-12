@@ -1,5 +1,11 @@
-p {
-  font-family: Lato;
+h2{
+  text-align: center;
+  font-size: 6vw;
+  color: rgb(65,65,65);
+}
+a{
+  text-decoration: none;
+  color:rgb(95, 95, 95);
 }
 .NavBox{
   font-weight:bold; 
@@ -12,8 +18,25 @@ p {
   display: flex;
   place-content: stretch space-around;
   align-items: stretch;
+  margin-left:2%;
 }
 .fxRow :hover{
-  background: gray;
+  background: lightgray;
   cursor:pointer;
+}
+.portrait{
+  margin-top: 3%;
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 15%;
+  border-radius: 50%;
+}
+.middleBox{
+  margin-top: -5%;
+  /*border: 2px solid teal;*/
+  /*border: 2px solid lightblue;*/
+  padding-top: 1%;
+  padding-bottom: 6%;
+  font-size: 3.5vw;
 }

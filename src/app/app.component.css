@@ -17,3 +17,23 @@ p {
   background: gray;
   cursor:pointer;
 }
+body{
+  height: 100%;
+  background: 
+  /* On "top" */
+  repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgb(244, 253, 253) 10px,
+    rgb(211, 255, 255) 20px
+  ),
+  /* on "bottom" */
+  linear-gradient(
+    to bottom,
+    #eee,
+    rgb(255, 255, 255)
+  );
+  /*background: rgb(240, 234, 214); eggshell */
+  }/*background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/checkerboard-cross.png");
+}*/

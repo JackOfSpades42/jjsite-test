@@ -17,6 +17,8 @@ a:hover{
 #explanation{
   width: 20%;
   overflow: scroll;
+  background: white;
+  padding: 1%;
 }
 #go{
   margin-top:10%;

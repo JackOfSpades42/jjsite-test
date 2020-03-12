@@ -33,6 +33,7 @@ export class ExcavatorService {
       let table = document.createElement("table");
       table.border = "1px solid black";
       table.style.fontFamily = "Georgia";
+      table.style.background = "white";
       if (a==0){
         let header = document.createElement("th");
         header.colSpan=2;
