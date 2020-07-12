@@ -1,0 +1,12 @@
+#textbox{
+  height: 400px;
+  width: 550px;
+  overflow: scroll;
+  background: white;
+  margin-top: 2%;
+}
+
+.container {
+  display:flex;
+  width:100%;
+}
