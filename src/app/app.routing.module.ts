@@ -9,6 +9,7 @@ import { ProjectComponent } from './project/project.component';
 
 import { ExcavateComponent } from './excavate/excavate.component';
 import { ChessComponent } from './chess/chess.component';
+import { NumComponent } from './num/num.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { ChessComponent } from './chess/chess.component';
       { path: 'Home', component: HomeComponent },
       { path: 'excavate', component: ExcavateComponent},
       { path: 'chess', component: ChessComponent},
+      { path: 'num', component:NumComponent},
       { path: '**', redirectTo: 'Home' }
     ])
   ],
