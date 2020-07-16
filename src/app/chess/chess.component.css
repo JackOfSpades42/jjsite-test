@@ -126,3 +126,10 @@ img::before{
     padding: 2px;
     padding-bottom: 4px;
 }
+.text{
+  background-color:white;
+  margin-top:2%;
+  padding:1%;
+  font-size: 11pt;
+  width: 33%;
+}

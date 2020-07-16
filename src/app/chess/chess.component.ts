@@ -15,7 +15,7 @@ export class ChessComponent implements OnInit {
   ) { };
 
   ngOnInit() {
-    this.Xavier.doThing();
+    //this.Xavier.doThing();
   }
 
 }
