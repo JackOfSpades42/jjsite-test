@@ -1,0 +1,27 @@
+.NavBox{
+  font-weight:bold; 
+  font-family:Arial;
+  padding: 5px;
+}
+.fxRow{
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+  place-content: stretch space-around;
+  align-items: stretch;
+}
+.fxRow :hover{
+  background: gray;
+  cursor:pointer;
+}
+.blog-post{
+  border: solid 1px black;
+  height:auto;
+  width:50%;
+  margin-left:5%;
+  padding:1%;
+}
+.post-body{
+  margin:0.5%;
+  border-bottom: solid 1px black;
+}
