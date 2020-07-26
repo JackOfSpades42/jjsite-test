@@ -8,7 +8,11 @@ import { Component, Input, OnInit } from '@angular/core';
 export class PostComponent {
 
   @Input() title: string;
-  @Input() post: string;
+  @Input() intro: string;
+  @Input() para1: string;
+  @Input() para2: string;
+  @Input() para3: string;
+  @Input() date: string;
 
   constructor() {}
 
