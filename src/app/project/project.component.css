@@ -1,7 +1,12 @@
+a{
+    text-decoration: none;
+  color:rgb(95, 95, 95);
+}
 .NavBox{
   font-weight:bold; 
   font: Arial;
   padding: 5px;
+  text-decoration: none;
 }
 .fxRow{
   flex-direction: row;
