@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class NumComponent implements OnInit {
   guessArray = [];
   firstHit = true;
-  left = 10000;
+  left = 100000;
   constructor(
   ) { }
 
@@ -48,7 +48,7 @@ export class NumComponent implements OnInit {
     //console.log(compareNumber);
     let textbox = document.getElementById("textbox");
     let bottomText = document.getElementById("bottomText");
-    let n =10000;
+    let n =100000;
     let userInput = document.getElementById("numRight");
     if (parseInt(userInput.value)===5){
       let finishString = "Great! I guessed your number! Hit \"Go!\" to go again.<br>";
@@ -57,7 +57,7 @@ export class NumComponent implements OnInit {
       bottomText.innerHTML = "";
       userInput.value = "";
       userInput.setAttribute("hidden","");
-      this.left = 10000;
+      this.left = 100000;
       this.makeArray();
       return;
     }
@@ -66,12 +66,12 @@ export class NumComponent implements OnInit {
             this.left -= this.reduceChoices(parseInt(userInput.value),n,compareNumber);
             if (this.left<=0){
                 console.log("too few left: " + this.left);
-                textbox.innerHTML += "Are you sure? Maybe try it again.";
+                textbox.innerHTML += "Are you sure? Maybe try it again.<br>";
                 bottomText.innerHTML = "";
                 userInput.value = "";
                 userInput.setAttribute("hidden","");
                 this.firstHit = true;
-                this.left = 10000;
+                this.left = 100000;
                 this.makeArray();
                 return;
             }
@@ -130,23 +130,26 @@ export class NumComponent implements OnInit {
     return returnNum;
   }
   reduceChoices(num,n,currentArray){
-    console.log("currentArray= " + currentArray);
-    console.log("num= " + num);
+    //console.log("currentArray= " + currentArray);
+    //console.log("num= " + num);
     let newN = 0;
     for (let g=0;g<n;g++){
         if (this.guessArray[g]!==-1){
             let count =0;
+            //console.log("compare " + this.guessArray[currentArray] + " " + this.guessArray[g]);
             for (let h=0;h<5;h++){
+              //console.log(this.guessArray[g][h]===this.guessArray[currentArray][h]);
                 if (this.guessArray[g][h]===this.guessArray[currentArray][h]){
                     //console.log(this.guessArray[g][h] + " = " + this.guessArray[currentArray][h]);
                     count++;
+                    
                 }
             }
             if (count!==num && count!==5 && g!==currentArray){
                 this.guessArray[g] = -1;
                 newN++;
             }
-            console.log("Count= " +count);
+            //console.log("Count= " +count);
         }
     }
     this.guessArray[currentArray] = -1;
