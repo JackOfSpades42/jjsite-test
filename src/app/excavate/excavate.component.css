@@ -23,3 +23,20 @@ a:hover{
 #go{
   margin-top:10%;
 }
+.fxRow2{
+  flex-direction: row;
+  box-sizing: border-box;
+  display: float;
+  place-content: stretch space-around;
+  align-items: stretch;
+  width:fit-content;
+}
+.fxRow2 :hover{
+  background: gray;
+  cursor:pointer;
+}
+a{
+  font-weight: bold;
+    text-decoration: none;
+  color:rgb(95, 95, 95);
+}

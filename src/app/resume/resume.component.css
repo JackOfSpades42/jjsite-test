@@ -14,3 +14,7 @@
   background: gray;
   cursor:pointer;
 }
+a{
+    text-decoration: none;
+  color:rgb(95, 95, 95);
+}

@@ -25,3 +25,7 @@
   margin:0.5%;
   border-bottom: solid 1px black;
 }
+a{
+    text-decoration: none;
+  color:rgb(95, 95, 95);
+}

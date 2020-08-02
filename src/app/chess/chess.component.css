@@ -133,3 +133,20 @@ img::before{
   font-size: 11pt;
   width: 33%;
 }
+.fxRow{
+  flex-direction: row;
+  box-sizing: border-box;
+  display: float;
+  place-content: stretch space-around;
+  align-items: stretch;
+  width:fit-content;
+}
+.fxRow :hover{
+  background: gray;
+  cursor:pointer;
+}
+a{
+  font-weight: bold;
+    text-decoration: none;
+  color:rgb(95, 95, 95);
+}

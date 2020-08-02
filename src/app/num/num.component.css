@@ -26,3 +26,20 @@
   font-size:50px;
   padding-left:5px
 }
+.fxRow{
+  flex-direction: row;
+  box-sizing: border-box;
+  display: float;
+  place-content: stretch space-around;
+  align-items: stretch;
+  width:fit-content;
+}
+.fxRow :hover{
+  background: gray;
+  cursor:pointer;
+}
+a{
+  font-weight: bold;
+    text-decoration: none;
+  color:rgb(95, 95, 95);
+}
