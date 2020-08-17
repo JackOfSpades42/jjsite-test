@@ -40,7 +40,7 @@ export class NumComponent implements OnInit {
         }
     }
   }
-  go(){
+  go(userInput: any){
     console.log(this.guessArray);
     let compNums = document.getElementsByClassName("guessNums");
     let compareNumber = this.getCompareNumber();
@@ -49,48 +49,46 @@ export class NumComponent implements OnInit {
     let textbox = document.getElementById("textbox");
     let bottomText = document.getElementById("bottomText");
     let n =100000;
-    let userInput = document.getElementById("numRight");
-    if (parseInt(userInput.value)===5){
+    let inputBox = document.getElementById("inputBox");
+    //let userInput = document.getElementById("numRight");
+    if (this.firstHit===true){
+      bottomText.innerHTML += "How many did I get right?<br><br>";
+      inputBox.removeAttribute("hidden");
+      userInput = "";
+    }
+    if (parseInt(userInput)===5){
       let finishString = "Great! I guessed your number! Hit \"Go!\" to go again.<br>";
       textbox.innerHTML += finishString;
       this.firstHit = true;
       bottomText.innerHTML = "";
-      userInput.value = "";
-      userInput.setAttribute("hidden","");
+      inputBox.setAttribute("hidden","");
+      inputBox.setAttribute("value","");
       this.left = 100000;
       this.makeArray();
       return;
     }
-    if (parseInt(userInput.value)<5 && userInput.value !==""){
+    if (parseInt(userInput)<5 && userInput !==""){
       console.log ("left = " + this.left);
-            this.left -= this.reduceChoices(parseInt(userInput.value),n,compareNumber);
+            this.left -= this.reduceChoices(parseInt(userInput),n,compareNumber);
             if (this.left<=0){
                 console.log("too few left: " + this.left);
                 textbox.innerHTML += "Are you sure? Maybe try it again.<br>";
                 bottomText.innerHTML = "";
-                userInput.value = "";
-                userInput.setAttribute("hidden","");
+                inputBox.setAttribute("hidden","");
                 this.firstHit = true;
                 this.left = 100000;
                 this.makeArray();
                 return;
             }
     }
-    if (this.firstHit===true){
-      bottomText.innerHTML += "How many did I get right?<br><br>";
-    }
-    //console.log(userInput);
-    userInput.removeAttribute("hidden");
-    //console.log(userInput.value);
-    if (parseInt(userInput.value)>=6 || (userInput.value==="" && this.firstHit===false)){
+    if (parseInt(userInput)>=6 || (userInput==="" && this.firstHit===false)){
       textbox.innerHTML += "That's not a valid input. Please try again with a number between 0 and 5.<br>";
     } else {
-      //console.log(this.guessArray);
       this.firstHit = false;
       let guesses = 0;
-      if (parseInt(userInput.value)<5 || userInput.value===""){
-        if (userInput.value <= 5 && userInput.value !== ""){
-          textbox.innerHTML += userInput.value + " correct numbers.<br>"
+      if (parseInt(userInput)<5 || userInput===""){
+        if (userInput <= 5 && userInput !== ""){
+          textbox.innerHTML += userInput + " correct numbers.<br>"
         }
         guesses++;
         let ran = Math.floor(Math.random() * n);

@@ -85,4 +85,4 @@
   <div style="width:15%"></div>
 </div>
 <div id="bottomText"></div>
-<div style="margin-left:5%; margin-top: 1%"> <input type="number" min="0" max="5" id="numRight" hidden> <button (click)="go()">Go!</button> </div>
+<div style="margin-left:5%; margin-top: 1%"> <input #numRight type="number" min="0" max="5" id="inputBox" hidden> <button (click)="go(numRight.value)">Go!</button> </div>
