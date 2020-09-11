@@ -1,7 +1,26 @@
+.leftBox{
+    height: 100px;
+    width: 200px;
+    background-color: rgb(184, 213, 241);
+}
+.topBox{
+    height: 200px;
+    width: 100px;
+    background-color: rgb(184, 213, 241);
+    border-left: 1px solid black;
+}
 .box {
     height: 100px;
     width: 100px;
     background-color: white;
+    border-left: 1px solid black;
+    font-size: 50pt;
+    text-align: center;
+}
+.fillbox{
+    height: 100px;
+    width: 100px;
+    background-color: black;
     border-left: 1px solid black;
 }
 .row{
@@ -9,7 +28,7 @@
   box-sizing: border-box;
   display: flex;
   align-items: stretch;
-  margin-left:2%;
+  margin-left:50px;
   border: 1px solid black;
   width:fit-content;
 }
