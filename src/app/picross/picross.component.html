@@ -1,0 +1,15 @@
+<div>
+<div *ngFor="let row of board.rows" class="row">
+    <div *ngFor="let square of row.squares, let i = index" class="box">
+        <div *ngIf="row.squares[i] > 2">
+            blank
+        </div>
+        <div *ngIf="!row.squares[i]">
+            X
+        </div>
+        <div *ngIf="row.squares[i] && row.squares[i] < 2">
+            Fill
+        </div>
+    </div><br>
+</div>
+</div>

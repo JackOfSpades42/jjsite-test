@@ -11,12 +11,13 @@ import { ExcavateComponent } from './excavate/excavate.component';
 import { ChessComponent } from './chess/chess.component';
 import { NumComponent } from './num/num.component';
 import { BlogComponent } from './blog/blog.component';
+import { PicrossComponent } from './picross/picross.component';
 
 
 @NgModule({
   declarations: [ 
     ProjectComponent, HomeComponent, ContactComponent, ResumeComponent,
-    ExcavateComponent, ChessComponent,
+    ExcavateComponent, ChessComponent
   ],
   imports: [
     RouterModule.forRoot([
@@ -28,6 +29,7 @@ import { BlogComponent } from './blog/blog.component';
       { path: 'chess', component: ChessComponent},
       { path: 'num', component:NumComponent},
       { path: 'blog', component: BlogComponent},
+      { path: 'picross', component: PicrossComponent},
       { path: '**', redirectTo: 'Home' }
     ])
   ],
