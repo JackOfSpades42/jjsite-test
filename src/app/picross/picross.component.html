@@ -1,9 +1,9 @@
 <div>
-<div class="row" style="margin-left:250px">
-    <div *ngFor="let row of board.rows" class="topBox"></div>
+<div class="row" style="margin-left:176px">
+    <div *ngFor="let row of board.rows" class="topBox"><input></div>
 </div>
 <div *ngFor="let row of board.rows" class="row">
-    <div class="leftBox"></div>
+    <div class="leftBox"><input></div>
     <div *ngFor="let square of row.squares, let i = index" class="box">
         
         <div *ngIf="row.squares[i] >= 2">
