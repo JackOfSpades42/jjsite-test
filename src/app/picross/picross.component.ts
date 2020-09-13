@@ -11,16 +11,21 @@ export class PicrossComponent implements OnInit {
   picross = new FormGroup({
     col0: new FormControl(''),
     col1: new FormControl(''),
+    col2: new FormControl(''),
     col3: new FormControl(''),
+    col4: new FormControl(''),
     row0: new FormControl(''),
     row1: new FormControl(''),
+    row2: new FormControl(''),
+    row3: new FormControl(''),
+    row4: new FormControl(''),
   });
   board: board;
 
   constructor() { }
 
   ngOnInit(): void {
-    this.board = new board(2);
+    this.board = new board(5);
   }
 
   solve(){
@@ -34,6 +39,7 @@ export class PicrossComponent implements OnInit {
       let col0cntrl = this.picross.controls["col0"];
       col0cntrl.setValue("10");
     }
+    console.log(this.picross.controls["col" + 0].value);
   }
 
 }
