@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-picross',
@@ -7,18 +8,31 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class PicrossComponent implements OnInit {
-
+  picross = new FormGroup({
+    col0: new FormControl(''),
+    col1: new FormControl(''),
+    col3: new FormControl(''),
+    row0: new FormControl(''),
+    row1: new FormControl(''),
+  });
   board: board;
 
   constructor() { }
 
   ngOnInit(): void {
-    this.board = new board(10);
+    this.board = new board(2);
   }
 
   solve(){
     while (!this.board.solved){
       
+    }
+  }
+  onSubmit(){
+    console.log(this.picross.value);
+    if (this.picross.value.col0 > 10){
+      let col0cntrl = this.picross.controls["col0"];
+      col0cntrl.setValue("10");
     }
   }
 

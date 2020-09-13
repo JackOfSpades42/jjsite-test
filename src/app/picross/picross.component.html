@@ -1,9 +1,10 @@
+<form [formGroup]="picross" (submit)="onSubmit()">
 <div>
 <div class="row" style="margin-left:176px">
-    <div *ngFor="let row of board.rows" class="topBox"><input></div>
+    <div *ngFor="let row of board.rows, let a = index" class="topBox"><input formControlName="col{{a}}"></div>
 </div>
-<div *ngFor="let row of board.rows" class="row">
-    <div class="leftBox"><input></div>
+<div *ngFor="let row of board.rows, let b = index" class="row">
+    <div class="leftBox"><input formControlName="row{{b}}"></div>
     <div *ngFor="let square of row.squares, let i = index" class="box">
         
         <div *ngIf="row.squares[i] >= 2">
@@ -18,3 +19,7 @@
     </div><br>
 </div>
 </div>
+<button type="submit">
+    Save
+</button>
+</form>

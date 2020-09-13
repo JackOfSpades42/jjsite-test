@@ -35,9 +35,10 @@
   border-left: none;
 }
 .topBox input{
+    margin: auto;
     width: 50%;
-   /* -webkit-transform: rotate(-90deg); 
-    -moz-transform: rotate(-90deg); */
+    -webkit-transform: rotate(-90deg); 
+    -moz-transform: rotate(-90deg);
     background:white;
 }
 .leftBox input{

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import { AppRoutingModule } from './app.routing.module';
@@ -12,7 +12,7 @@ import { PostComponent } from './post/post.component';
 import { PicrossComponent } from './picross/picross.component'; 
 
 @NgModule({
-  imports:      [ BrowserModule, FormsModule, AppRoutingModule ],
+  imports:      [ BrowserModule, FormsModule, AppRoutingModule, ReactiveFormsModule ],
   declarations: [ AppComponent, NumComponent, BlogComponent, PostComponent, PicrossComponent ],
   bootstrap:    [ AppComponent ],
 })
