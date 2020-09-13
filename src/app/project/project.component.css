@@ -31,6 +31,7 @@ a{
   border: 1px solid black;
   text-align: center;
   padding:2%;
+  background-color: rgb(212, 247, 247);
 }
 .space{
   border: 1px solid rgb(170, 240, 240);

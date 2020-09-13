@@ -18,3 +18,11 @@ a{
     text-decoration: none;
   color:rgb(95, 95, 95);
 }
+.resumeBox{
+  width:fit-content;
+  margin:auto;
+  border: 1px solid black;
+  text-align: center;
+  padding:2%;
+  background-color: rgb(212, 247, 247);
+}

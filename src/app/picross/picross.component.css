@@ -36,8 +36,8 @@
 }
 .topBox input{
     width: 50%;
-    -webkit-transform: rotate(-90deg); 
-    -moz-transform: rotate(-90deg); 
+   /* -webkit-transform: rotate(-90deg); 
+    -moz-transform: rotate(-90deg); */
     background:white;
 }
 .leftBox input{
