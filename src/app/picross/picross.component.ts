@@ -31,10 +31,23 @@ export class PicrossComponent implements OnInit {
   }
 
   solve(){
+    this.board = new board(5);
     this.getClues(this.board);
-    while (!this.board.solved){
+    this.initialize(this.board);
+    /*while (!this.board.solved){
       //
-    }
+    }*/
+    //console.log(this.board.rows[0]);
+    let testRow = new row(5);
+    testRow.clues = [2];
+    testRow.squares = [2,2,2,1,2];
+    /*testRow.reduce();
+    testRow.reducedRows[0].fill_overlap();
+    testRow.reducedRows[1].fill_overlap();
+    testRow.updateRowFromReduced();*/
+    testRow.fill_overlap();
+    testRow.fill_end();
+    console.log("testrow= " + testRow.squares);
   }
   onSubmit(){
     console.log(this.picross.value);
@@ -42,14 +55,16 @@ export class PicrossComponent implements OnInit {
       let col0cntrl = this.picross.controls["col0"];
       col0cntrl.setValue("10");
     }
-    console.log(parseInt(this.picross.controls["col" + 0].value) + 1);
+    //console.log(parseInt(this.picross.controls["col" + 0].value) + 1);
+    this.solve();
   }
   getClues(brd:board){
     for(let a=0;a<this.squareSize;a++){
       let rowClueString = this.picross.controls["row" + a].value;
       let colClueString = this.picross.controls["col" + a].value;
+      //console.log("cluestring= " + rowClueString.length);
       if (rowClueString.length > 1){
-        for (let b=0;b<length;b++){
+        for (let b=0;b<rowClueString.length;b++){
           if (rowClueString[b]!=" "){
             brd.rows[a].clues.push(parseInt(rowClueString[b]));
           }
@@ -59,13 +74,80 @@ export class PicrossComponent implements OnInit {
       }
 
       if (colClueString.length > 1){
-        for (let b=0;b<length;b++){
+        for (let b=0;b<colClueString.length;b++){
           if (colClueString[b]!=" "){
             brd.columns[a].clues.push(parseInt(colClueString[b]));
           }
         }
       } else {
         brd.columns[a].clues.push(parseInt(colClueString));
+      }
+      brd.columns[a].clues.reverse();
+    }
+  }
+  initialize(brd:board){
+    for (let count=0;count<this.squareSize;count++){
+      let row = brd.rows[count];
+      if (row.clues.length>1){
+        row.reduce();
+        for (let redCount=0;redCount<row.reducedRows.length;redCount++){
+          let currRedRow = row.reducedRows[redCount];
+          currRedRow.fill_overlap();
+          if (!currRedRow.isFull()){
+            if (currRedRow.squares[0]==1){
+              currRedRow.fill_start();
+            }
+            if (currRedRow.squares[currRedRow.squares.length -1]==1){
+              currRedRow.fill_end();
+            }
+          }
+        }
+        row.updateRowFromReduced();
+      } else {
+        row.fill_overlap();
+        if (!row.isFull()){
+          if (row.squares[0]==1){
+            row.fill_start();
+          }
+          if (row.squares[row.squares.length -1]==1){
+            row.fill_end();
+          }
+        }
+      }
+    }
+    for (let colCount=0;colCount<this.squareSize;colCount++){
+      brd.updateColsFromRows(colCount);
+      let col = brd.columns[colCount];
+      if (col.clues.length>1){
+        col.reduce();
+        for (let colRed=0;colRed<col.reducedRows.length;colRed++){
+          let currRed = col.reducedRows[colRed];
+          currRed.fill_overlap();
+          if (!currRed.isFull()){
+            if (currRed.squares[0]==1){
+              currRed.fill_start();
+            }
+            if (currRed.squares[currRed.squares.length - 1]==1){
+              currRed.fill_end();
+            }
+          }
+        }
+        col.updateRowFromReduced();
+      } else {
+        col.fill_overlap();
+        if (!col.isFull()){
+          if (col.squares[0]==1){
+            col.fill_start();
+          }
+          if (col.squares[col.squares.length-1]==1){
+            col.fill_end();
+          }
+        }
+      }
+      //console.log(brd.columns[colCount]);
+      //console.log(brd.columns[colCount].clues);
+      for (let update=0;update<this.squareSize;update++){
+        brd.updateRowsFromCols(update);
       }
     }
   }
@@ -104,7 +186,7 @@ class row {
     if (this.squares.length/this.clues[0] < 2){
       let edgeEmpties = this.squares.length - this.clues[0];
       for (let a=0;a<this.squares.length;a++){
-        if (a>=edgeEmpties || a<this.squares.length - edgeEmpties){ //double check this manually
+        if (a>=edgeEmpties && a<this.squares.length - edgeEmpties){
           this.squares[a]=1;
         }
       }
@@ -113,6 +195,7 @@ class row {
 
   reduce(){
     if (this.clues.length>1){
+      this.reducedRows = [];
       for (let a=0;a<this.clues.length;a++){
         let index1 = 0;
         if (a>0){
@@ -125,14 +208,32 @@ class row {
         }
         let index2 = this.squares.length - 1;
         if (a< this.clues.length-1){
-          index2 -= (this.squares.length - 1) - (this.clues.length - 1 - a);
-          let c =0;
+          index2 -= (this.clues.length - 1 - a);
+          let c =this.clues.length - 1;
           while (c>a){
             index2 -= this.clues[c];
             c--;
           }
         }
         this.reducedRows[a] = new reducedRow(this.clues[a],index1,index2,this);
+      }
+    }
+  }
+
+  isFull(){
+    if (this.squares.indexOf(2)==-1){
+      return true;
+    }
+    return false;
+  }
+
+  updateRowFromReduced(){
+    for (let a=0;a<this.reducedRows.length;a++){
+      let currRed = this.reducedRows[a];
+      for (let b=0;b<currRed.squares.length;b++){
+        if (currRed.squares[b]!==2){
+          this.squares[b + currRed.index1] = currRed.squares[b];
+        }
       }
     }
   }
@@ -143,21 +244,19 @@ class reducedRow extends row {
   index2: number;
   targetClue: number;
   parent: row;
-  reducedLength: number;
   constructor(clue,index1,index2,row){
-    super(row.squares.length);
+    super(index2-index1+1);
     this.targetClue = clue;
     this.index1 = index1;
     this.index2 = index2;
     this.parent = row;
-    this.reducedLength = index2 - index1;
   }
 
   fill_overlap(){
-    if (this.reducedLength/this.targetClue < 2){
-      let edgeEmpties = this.reducedLength - this.targetClue;
-      for (let a=this.index1;a<this.index2;a++){
-        if (a>=edgeEmpties || a<this.reducedLength - edgeEmpties){ //double check this manually
+    if (this.squares.length/this.targetClue < 2){
+      let edgeEmpties = this.squares.length - this.targetClue;
+      for (let a=0;a<this.squares.length;a++){
+        if (a>=edgeEmpties || a<this.squares.length - edgeEmpties){ //double check this manually
           this.squares[a]=1;
         }
       }
@@ -177,6 +276,22 @@ class board {
       for (let b=0;b<a;b++){
         this.rows[b] = new row(a);
         this.columns[b] = new row(a);
+      }
+    }
+
+    updateColsFromRows(num:number){
+      for (let a=0;a<this.rows.length;a++){
+        if (this.rows[a].squares[num]!==2){
+          this.columns[num].squares[a] = this.rows[a].squares[num];
+        }
+      }
+    }
+
+    updateRowsFromCols(num:number){
+      for (let a=0;a<this.rows.length;a++){
+        if (this.columns[a].squares[num]!==2){
+          this.rows[num].squares[a] = this.columns[a].squares[num];
+        }
       }
     }
 }
