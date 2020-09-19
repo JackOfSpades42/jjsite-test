@@ -32,40 +32,50 @@ export class PicrossComponent implements OnInit {
   }
 
   testClues(){
-    this.picross.controls["col0"].setValue("2");
-    this.picross.controls["col1"].setValue("2");
-    this.picross.controls["col2"].setValue("3 1");
-    this.picross.controls["col3"].setValue("2 2");
-    this.picross.controls["col4"].setValue("3");
+    this.picross.controls["col0"].setValue("1 1");
+    this.picross.controls["col1"].setValue("4");
+    this.picross.controls["col2"].setValue("2 2");
+    this.picross.controls["col3"].setValue("1 2");
+    this.picross.controls["col4"].setValue("2");
     this.picross.controls["row0"].setValue("2");
-    this.picross.controls["row1"].setValue("2");
-    this.picross.controls["row2"].setValue("1 1 1");
-    this.picross.controls["row3"].setValue("5");
-    this.picross.controls["row4"].setValue("3");
+    this.picross.controls["row1"].setValue("4");
+    this.picross.controls["row2"].setValue("1 1");
+    this.picross.controls["row3"].setValue("2 1");
+    this.picross.controls["row4"].setValue("4");
+  }
+
+  iterateAllRows(num:number){
+    for (let itCount=0;itCount<num;itCount++){
+      for (let brdCount=0;brdCount<this.squareSize*2;brdCount++){
+        if (brdCount<this.squareSize){
+          if (this.board.rows[brdCount].clues.length==1){
+            this.board.rows[brdCount].iterate();
+          }
+        } else {
+          if (this.board.columns[brdCount-this.squareSize].clues.length==1){
+            this.board.updateColsFromRows(brdCount-this.squareSize);
+            this.board.columns[brdCount-this.squareSize].iterate();
+            for (let update=0;update<this.squareSize;update++){
+              this.board.updateRowsFromCols(update);
+            }
+          }
+        }
+      }
+    }
   }
 
   solve(){
     this.board = new board(5);
     this.getClues(this.board);
     this.initialize(this.board);
-    for (let brdCount=0;brdCount<this.squareSize*2;brdCount++){
-      if (brdCount<this.squareSize){
-        this.board.rows[brdCount].iterate();
-      } else {
-        this.board.updateColsFromRows(brdCount-this.squareSize);
-        this.board.columns[brdCount-this.squareSize].iterate();
-        for (let update=0;update<this.squareSize;update++){
-          this.board.updateRowsFromCols(update);
-        }
-      }
-    }
+    this.iterateAllRows(3);
     /*while (!this.board.solved){
       //
     }*/
     //console.log(this.board.columns[1].reducedRows);
     let testRow = new row(5);
-    testRow.clues = [2];
-    testRow.squares = [2,2,0,1,2];
+    testRow.clues = [3];
+    testRow.squares = [2,2,1,1,1];
     //testRow.reduce();
     //testRow.reducedRows[0].fill_overlap();
     //testRow.reducedRows[1].fill_overlap();
@@ -149,8 +159,8 @@ export class PicrossComponent implements OnInit {
       if (col.clues.length>1){
         col.reduce();
         if (colCount==1){
-          console.log(brd.columns[1].squares);
-          console.log(brd.columns[1].reducedRows);
+          //console.log(brd.columns[1].squares);
+          //console.log(brd.columns[1].reducedRows);
         }
         for (let colRed=0;colRed<col.reducedRows.length;colRed++){
           let currRed = col.reducedRows[colRed];
@@ -287,7 +297,7 @@ class row {
                 this.squares[c] = 1;
               }
             }
-            if(b!==0 && b!==this.squares.length -1){
+            if(b!==0){
               if (this.squares[b-1]==1){
                 let lineCount = 0;
                 let curr = b;
@@ -303,6 +313,12 @@ class row {
                     this.squares[this.squares.indexOf(2)] = 0;
                   }
                 }
+              }
+            }
+          } else if (this.squares[b]==0){
+            if (this.squares[b-1]==1){
+              for (let c=b-this.clues[0];c<b-1;c++){
+                this.squares[c] = 1;
               }
             }
           }
