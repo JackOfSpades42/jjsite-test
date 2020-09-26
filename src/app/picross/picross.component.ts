@@ -50,11 +50,21 @@ export class PicrossComponent implements OnInit {
         if (brdCount<this.squareSize){
           if (this.board.rows[brdCount].clues.length==1){
             this.board.rows[brdCount].iterate();
+          } else if (this.board.rows[brdCount].clues.length>1) {
+            this.board.rows[brdCount].iterateRRs();
+            this.board.rows[brdCount].updateRowFromReduced();
           }
         } else {
           if (this.board.columns[brdCount-this.squareSize].clues.length==1){
             this.board.updateColsFromRows(brdCount-this.squareSize);
             this.board.columns[brdCount-this.squareSize].iterate();
+            for (let update=0;update<this.squareSize;update++){
+              this.board.updateRowsFromCols(update);
+            }
+          } else if (this.board.columns[brdCount-this.squareSize].clues.length>1) {
+            this.board.updateColsFromRows(brdCount-this.squareSize);
+            this.board.columns[brdCount-this.squareSize].iterateRRs();
+            this.board.columns[brdCount - this.squareSize].updateRowFromReduced();
             for (let update=0;update<this.squareSize;update++){
               this.board.updateRowsFromCols(update);
             }
@@ -68,23 +78,24 @@ export class PicrossComponent implements OnInit {
     this.board = new board(5);
     this.getClues(this.board);
     this.initialize(this.board);
-    this.iterateAllRows(3);
-    /*while (!this.board.solved){
-      //
-    }*/
-    //console.log(this.board.columns[1].reducedRows);
+    this.iterateAllRows(4);
     let testRow = new row(5);
-    testRow.clues = [3];
-    testRow.squares = [2,2,1,1,1];
-    //testRow.reduce();
-    //testRow.reducedRows[0].fill_overlap();
-    //testRow.reducedRows[1].fill_overlap();
-    //testRow.updateRowFromReduced();
+    testRow.clues = [1,1];
+    testRow.squares = [2,1,0,2,2];
+    testRow.reduce();
+    testRow.reducedRows[0].fill_overlap();
+    testRow.reducedRows[1].fill_overlap();
+    testRow.updateRowFromReduced();
     //testRow.fill_overlap();
     //testRow.fill_end();
     //testRow.fill_start();
-    testRow.iterate();
+    testRow.iterateRRs();
+    testRow.updateRowFromReduced();
     console.log("testrow= " + testRow.squares);
+    console.log(testRow.reducedRows);
+    //console.log(this.board.rows[2].reducedRows);
+    //this.board.rows[2].reducedRows[0].iterate();
+    //console.log(this.board.rows[2].reducedRows);
   }
   onSubmit(){
     //console.log(this.picross.value);
@@ -273,7 +284,7 @@ class row {
     for (let a=0;a<this.reducedRows.length;a++){
       let currRed = this.reducedRows[a];
       for (let b=0;b<currRed.squares.length;b++){
-        if (currRed.squares[b]!==2){
+        if (currRed.squares[b]!==2 && currRed.squares[b]!==null){
           this.squares[b + currRed.index1] = currRed.squares[b];
         }
       }
@@ -325,6 +336,14 @@ class row {
         }
       }
     }
+
+    iterateRRs(){
+      for (let RRs=0;RRs<this.reducedRows.length;RRs++){
+        this.reducedRows[RRs].updateRedFrowRow();
+        this.reducedRows[RRs].reReduce();
+        this.reducedRows[RRs].iterate();
+      }
+    }
   }
 
 class reducedRow extends row {
@@ -345,6 +364,8 @@ class reducedRow extends row {
   }
 
   fill_overlap(){
+    this.updateRedFrowRow();
+    this.reReduce();
     if (this.squares.length/this.targetClue < 2){
       let edgeEmpties = this.squares.length - this.targetClue;
       for (let a=0;a<this.squares.length;a++){
@@ -364,6 +385,7 @@ class reducedRow extends row {
   }
 
   reReduce(){
+    this.updateRedFrowRow();
     while(this.squares[0]==0){
       this.squares.shift();
       this.index1++;
@@ -371,6 +393,58 @@ class reducedRow extends row {
     while(this.squares[this.squares.length-1]==0){
       this.squares.pop();
       this.index2--;
+    }
+    if (this.squares.indexOf(0)<this.targetClue && this.squares.indexOf(0)!==-1){
+      for(let mark=0;mark<this.targetClue;mark++){
+        this.squares[mark] = 0;
+      }
+      this.reReduce();
+    }
+    if (this.squares.length - this.squares.lastIndexOf(2) - 1<this.targetClue && this.squares.indexOf(0)!==-1){
+      for (let mark=this.squares.length-1;mark>this.squares.length - this.targetClue;mark--){
+        this.squares[mark] = 0;
+      }
+      this.reReduce();
+    }
+  }
+
+  updateRedFrowRow(){
+    for (let a=0;a<this.squares.length;a++){
+      this.squares[a] = this.parent.squares[a+this.index1];
+    }
+  }
+
+  iterate(){
+    let indexArray = [];
+    let lineArray = [];
+    let counter = 0;
+    let lineCounter = 0;
+    while (counter<this.squares.length){
+      if (this.squares[counter]==1){
+        lineCounter++
+        if (this.squares[counter-1]!==1){
+          indexArray.push(counter);
+        }
+      } else {
+        if (lineCounter>0){
+          lineArray.push(lineCounter);
+        }
+        lineCounter = 0;
+      }
+      counter++;
+    }
+    if (lineCounter>0){
+      lineArray.push(lineCounter);
+    }
+    let rowMax = Math.max(...this.parent.clues);
+    if (lineArray.indexOf(rowMax)>-1){
+      let maxIndex = indexArray[lineArray.indexOf(rowMax)];
+      if (maxIndex!=0){
+        this.squares[maxIndex-1] = 0;
+      }
+      if (maxIndex+rowMax!=this.squares.length){
+        this.squares[maxIndex+rowMax+1] = 0;
+      }
     }
   }
 }
