@@ -32,16 +32,16 @@ export class PicrossComponent implements OnInit {
   }
 
   testClues(){
-    this.picross.controls["col0"].setValue("1 1");
-    this.picross.controls["col1"].setValue("4");
-    this.picross.controls["col2"].setValue("2 2");
-    this.picross.controls["col3"].setValue("1 2");
-    this.picross.controls["col4"].setValue("2");
-    this.picross.controls["row0"].setValue("2");
-    this.picross.controls["row1"].setValue("4");
-    this.picross.controls["row2"].setValue("1 1");
-    this.picross.controls["row3"].setValue("2 1");
-    this.picross.controls["row4"].setValue("4");
+    this.picross.controls["col0"].setValue("1");
+    this.picross.controls["col1"].setValue("3");
+    this.picross.controls["col2"].setValue("3 1");
+    this.picross.controls["col3"].setValue("1 3");
+    this.picross.controls["col4"].setValue("1 1 1");
+    this.picross.controls["row0"].setValue("3");
+    this.picross.controls["row1"].setValue("2 1");
+    this.picross.controls["row2"].setValue("4");
+    this.picross.controls["row3"].setValue("2");
+    this.picross.controls["row4"].setValue("3");
   }
 
   iterateAllRows(num:number){
@@ -78,13 +78,13 @@ export class PicrossComponent implements OnInit {
     this.board = new board(5);
     this.getClues(this.board);
     this.initialize(this.board);
-    this.iterateAllRows(4);
+    this.iterateAllRows(10);
     let testRow = new row(5);
     testRow.clues = [1,1];
-    testRow.squares = [2,1,0,2,2];
+    testRow.squares = [0,2,0,0,2];
     testRow.reduce();
-    testRow.reducedRows[0].fill_overlap();
-    testRow.reducedRows[1].fill_overlap();
+    //testRow.reducedRows[0].fill_overlap();
+    //testRow.reducedRows[1].fill_overlap();
     testRow.updateRowFromReduced();
     //testRow.fill_overlap();
     //testRow.fill_end();
@@ -341,6 +341,7 @@ class row {
       for (let RRs=0;RRs<this.reducedRows.length;RRs++){
         this.reducedRows[RRs].updateRedFrowRow();
         this.reducedRows[RRs].reReduce();
+        this.reducedRows[RRs].fill_overlap();
         this.reducedRows[RRs].iterate();
       }
     }
@@ -446,6 +447,7 @@ class reducedRow extends row {
         this.squares[maxIndex+rowMax+1] = 0;
       }
     }
+    
   }
 }
 
