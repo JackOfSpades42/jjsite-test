@@ -29,3 +29,17 @@ a{
     text-decoration: none;
   color:rgb(95, 95, 95);
 }
+.blog-post{
+  border: solid 1px black;
+  height:auto;
+  width:50%;
+  margin-left:5%;
+  padding:1%;
+   background-color:rgb(212, 247, 247);
+}
+.post-body{
+  margin:0.5%;
+  border-top: solid 1px black;
+  background-color:rgb(212, 247, 247);
+  padding-top: 1.5%;
+}
