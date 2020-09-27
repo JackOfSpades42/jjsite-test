@@ -32,16 +32,16 @@ export class PicrossComponent implements OnInit {
   }
 
   testClues(){
-    this.picross.controls["col0"].setValue("3");
+    this.picross.controls["col0"].setValue("2");
     this.picross.controls["col1"].setValue("3");
     this.picross.controls["col2"].setValue("3");
-    this.picross.controls["col3"].setValue("1 3");
-    this.picross.controls["col4"].setValue("2");
-    this.picross.controls["row0"].setValue("1 1");
+    this.picross.controls["col3"].setValue("3");
+    this.picross.controls["col4"].setValue("4");
+    this.picross.controls["row0"].setValue("2 1");
     this.picross.controls["row1"].setValue("2 2");
-    this.picross.controls["row2"].setValue("5");
-    this.picross.controls["row3"].setValue("1 1");
-    this.picross.controls["row4"].setValue("2");
+    this.picross.controls["row2"].setValue("4");
+    this.picross.controls["row3"].setValue("3");
+    this.picross.controls["row4"].setValue("1");
   }
 
   iterateAllRows(num:number){
@@ -80,11 +80,12 @@ export class PicrossComponent implements OnInit {
     this.initialize(this.board);
     this.iterateAllRows(10);
     let testRow = new row(5);
-    testRow.clues = [1,2];
-    testRow.squares = [2,2,1,2,2];
+    testRow.clues = [2,1];
+    testRow.squares = [2,1,2,2,2];
+    //testRow.iterate();
     testRow.reduce();
-    testRow.reducedRows[0].fill_overlap();
-    testRow.reducedRows[1].fill_overlap();
+    //testRow.reducedRows[0].fill_overlap();
+    //testRow.reducedRows[1].fill_overlap();
     testRow.updateRowFromReduced();
     //testRow.fill_overlap();
     //testRow.fill_end();
@@ -92,7 +93,7 @@ export class PicrossComponent implements OnInit {
     testRow.iterateRRs();
     testRow.updateRowFromReduced();
     console.log("testrow= " + testRow.squares);
-    console.log(testRow.reducedRows);
+    //console.log(testRow.reducedRows);
     //console.log(this.board.rows[2].reducedRows);
     //this.board.rows[2].reducedRows[0].iterate();
     //console.log(this.board.rows[2].reducedRows);
@@ -458,10 +459,14 @@ class reducedRow extends row {
     }
     if (this.squares.length==this.targetClue+1){
       if (this.squares.indexOf(2)!=-1){
-        if (this.squares.indexOf(1)>-1){
-          this.squares[this.squares.indexOf(2)] = 0;
-        } else if (this.squares.indexOf(0)!=-1){
-          this.squares[this.squares.indexOf(2)] = 1;
+        if (this.squares[0]==1){
+          this.squares[this.squares.length-1] = 0;
+        } else if (this.squares[0]==0){
+          this.squares[this.squares.length-1] = 1;
+        } else if (this.squares[this.squares.length-1]==1){
+          this.squares[0] = 0;
+        } else if (this.squares[this.squares.length-1]==0){
+          this.squares[0] = 1;
         }
       }
     }
